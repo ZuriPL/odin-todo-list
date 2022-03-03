@@ -1,1 +1,1 @@
-# webpack-template
+# odin-todo-list

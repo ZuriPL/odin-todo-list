@@ -1,0 +1,11 @@
+:root {
+    --accent-color: #00aaFF;
+    --light-100: #fefefe;
+    --light-300: #eeeeee;
+    --text: black;
+}
+
+* {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}

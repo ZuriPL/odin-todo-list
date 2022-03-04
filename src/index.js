@@ -1,4 +1,9 @@
-const test = document.createElement('p')
-test.textContent = "test"
+import sidebarF from './js/components/sidebar'
+import elFactory from './js/elFactory'
+import './css/global.css'
+import './css/body.css'
 
-document.body.appendChild(test)
+
+const sidebar = sidebarF()
+
+document.body.appendChild(sidebar)

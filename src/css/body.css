@@ -1,0 +1,6 @@
+body {
+    display: grid;
+    grid-template: 5rem 1fr / 16.5rem 1fr;
+    height: 100vh;
+    background-color: var(--light-300);
+}

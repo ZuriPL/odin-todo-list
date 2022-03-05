@@ -6,7 +6,7 @@ module.exports = {
   mode: 'development',
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Template',
+      title: 'Todo List',
     }),
   ],
   output: {

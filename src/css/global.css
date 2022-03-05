@@ -2,7 +2,12 @@
     --accent-color: #00aaFF;
     --light-100: #fefefe;
     --light-300: #eaf0f5;
+    --dark-300: #0e0e0e;
+    --dark-100: #202020;
+    
     --text: black;
+    --bg-1: var(--light-100);
+    --bg-3: var(--light-300);
 }
 
 * {
@@ -10,4 +15,5 @@
     font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
     padding: 0;
+    color: var(--text);
 }

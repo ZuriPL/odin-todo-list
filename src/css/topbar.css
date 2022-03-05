@@ -7,7 +7,7 @@
 }
 
 #topbar #search-wrapper {
-    background-color: white;
+    background-color: var(--bg-1);
     border-radius: 100vh;
     flex-grow: 1;
     display: flex;
@@ -22,7 +22,7 @@
 }
 
 #topbar #search-wrapper:focus-within {
-    outline: 2px solid black;
+    outline: auto;
 }
 
 #topbar #search-wrapper input {
@@ -39,4 +39,29 @@
     display: grid;
     place-items: center;
     color: var(--accent-color);
+}
+
+#topbar #theme-switch {
+    display: none;
+}
+
+#topbar #theme-switch ~ label.light {
+    display: none;
+}
+#topbar #theme-switch:checked ~ label.light {
+    display: block;
+}
+#topbar #theme-switch ~ label.dark {
+    display: block;
+}
+#topbar #theme-switch:checked ~ label.dark {
+    display: none;
+}
+
+#topbar #theme-switch:checked ~ label.dark:focus-within {
+    outline: auto;
+}
+
+#topbar #theme-switch ~ label.light:focus-within {
+    outline: auto;
 }

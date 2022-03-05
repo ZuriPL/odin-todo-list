@@ -47,7 +47,7 @@
     font-size: 1rem;
     font-weight: 700;
     text-align: left;
-    transition: none !important;
+    transition: background-color 0ms linear !important;
 }
 
 .sidebar-selection:hover {

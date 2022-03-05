@@ -1,5 +1,4 @@
 #topbar {
-    border: 1px solid blue;
     display: flex;
     gap: 1rem;
     align-items: center;
@@ -22,7 +21,7 @@
 }
 
 #topbar #search-wrapper:focus-within {
-    outline: auto;
+    outline: var(--outline);
 }
 
 #topbar #search-wrapper input {
@@ -59,9 +58,9 @@
 }
 
 #topbar #theme-switch:checked ~ label.dark:focus-within {
-    outline: auto;
+    outline: var(--outline);
 }
 
 #topbar #theme-switch ~ label.light:focus-within {
-    outline: auto;
+    outline: var(--outline);
 }

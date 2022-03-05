@@ -1,5 +1,5 @@
 :root {
-    --accent-color: #00aaFF;
+    --accent-color: #0099FF;
     --light-100: #fefefe;
     --light-300: #eaf0f5;
     --dark-300: #0e0e0e;
@@ -8,6 +8,7 @@
     --text: black;
     --bg-1: var(--light-100);
     --bg-3: var(--light-300);
+    --outline: 2px solid var(--text);
 }
 
 * {
@@ -16,4 +17,5 @@
     box-sizing: border-box;
     padding: 0;
     color: var(--text);
+    transition: background-color 250ms ease-out, color 250ms ease-out;
 }

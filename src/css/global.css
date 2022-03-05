@@ -17,5 +17,8 @@
     box-sizing: border-box;
     padding: 0;
     color: var(--text);
+}
+
+.animations *, .animations {
     transition: background-color 250ms ease-out, color 250ms ease-out;
 }

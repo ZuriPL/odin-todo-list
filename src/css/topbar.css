@@ -17,7 +17,7 @@
 }
 
 #topbar #search-wrapper input::placeholder {
-    color: #cfcfcf;
+    color: #bebebe;
 }
 
 #topbar #search-wrapper:focus-within {

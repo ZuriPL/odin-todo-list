@@ -18,9 +18,14 @@ function switchTheme() {
     }
 }
 
-document.body.appendChild(sidebar)
-document.body.appendChild(topbar)
+
+const body = elFactory('div', {class: 'body'})
+body.appendChild(sidebar)
+body.appendChild(topbar)
+document.body.appendChild(body)
 
 document.querySelector('input[type=checkbox]').addEventListener('click', _ => {
     switchTheme()
 })
+
+document.querySelector('body').classList.add('animations')

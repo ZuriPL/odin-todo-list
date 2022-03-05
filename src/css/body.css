@@ -4,3 +4,19 @@ body {
     height: 100vh;
     background-color: var(--bg-3);
 }
+
+/* DEBUG STYLING */
+
+#debug {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: red;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+#debug * {
+    color: black !important;
+    padding: 0.25rem;
+}

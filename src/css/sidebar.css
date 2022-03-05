@@ -40,18 +40,18 @@
 
 
 .sidebar-selection {
-    background-color: var(--bg-1);
+    background-color: transparent;
     border: none;
     padding: 0;
     padding: 1rem 2rem;
-    transition: none !important;
     font-size: 1rem;
     font-weight: 700;
     text-align: left;
+    transition: none !important;
 }
 
 .sidebar-selection:hover {
-    background-color: var(--bg-3)
+    background-color: var(--bg-2);
 }
 
 

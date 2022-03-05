@@ -1,8 +1,10 @@
 :root {
     --accent-color: #0099FF;
     --light-100: #fefefe;
+    --light-200: #f0f0f0;
     --light-300: #eaf0f5;
-    --dark-300: #0c0c0c;
+    --dark-300: #0b0b0b;
+    --dark-200: #161616;
     --dark-100: #202020;
     --outline: 2px solid var(--text);
 }

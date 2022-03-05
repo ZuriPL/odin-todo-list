@@ -1,0 +1,23 @@
+#workspace {
+    padding: 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: relative;
+}
+
+#workspace-add-btn {
+    padding: 1rem;
+    border-radius: 100%;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1;
+    box-shadow: 3px 3px 6px hsl(0 0% 0% / 0.35);
+    position: absolute;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    background-color: var(--bg-1);
+    border: none;
+}
+#workspace-add-btn:hover {
+    background-color: var(--bg-2);;
+}

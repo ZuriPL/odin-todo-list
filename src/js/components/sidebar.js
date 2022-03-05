@@ -32,5 +32,5 @@ export default function() {
 
     selectionWrapper.appendChild(projectsSort)
 
-    return sidebar
+    return { sidebar, projectsSort, projectsSortTitle }
 }

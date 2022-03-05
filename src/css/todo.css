@@ -3,13 +3,38 @@
     padding: 1rem;
     border-radius: 10px;
     box-shadow: 3px 3px 6px hsl(0 0% 0% / 0.35);
-    height: fit-content;
+    height: 100%;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
 }
 
 .todo-description {
-    display: none;
+    text-overflow: ellipsis;
+    color: #777;
 }
 
 .todo-dueDate {
-    color: #777;
+    display: none;
+    text-overflow: ellipsis;
 }
+
+.infoWrapper {
+    flex-grow: 1;
+}
+
+.todo-delete-button {
+    border: none;
+    background-color: transparent;
+    display: none;
+}
+
+.todo-card input:checked ~ .todo-delete-button {
+    display: block;
+}
+
+.todo-card input:checked ~ .infoWrapper .todo-description, 
+.todo-card input:checked ~ .infoWrapper .todo-title {
+    text-decoration: line-through;
+}
+

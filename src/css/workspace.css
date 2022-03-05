@@ -1,7 +1,7 @@
 #workspace {
     padding: 2rem 3rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-auto-rows: min-content;
     position: relative;
     gap: 2rem;
@@ -19,7 +19,4 @@
     right: 2.5rem;
     background-color: var(--bg-1);
     border: none;
-}
-#workspace-add-btn:hover {
-    background-color: var(--bg-2);;
 }

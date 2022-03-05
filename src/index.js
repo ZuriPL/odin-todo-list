@@ -151,6 +151,9 @@ displayController.createPage()
 
 // DEBUG
 
+logicController.makeTodo('test', 'test', 'test', 'test')
+logicController.makeTodo('test', 'test', 'test', 'test')
+logicController.makeTodo('test', 'test', 'test', 'test')
 
 const debugMenu = elFactory('div', {id: 'debug'})
 function debugx() {

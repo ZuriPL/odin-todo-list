@@ -11,5 +11,26 @@ export default function() {
     const selectionWrapper = elFactory('div', {id: 'selection-wrapper'})
     sidebar.appendChild(selectionWrapper)
     
+    const todoDateSort = elFactory('div', {class: 'sidebar-group'})
+    const todoDateSortTitle = elFactory('h2', {class: 'sidebar-group-title'})
+    todoDateSortTitle.textContent = 'Priority'
+    todoDateSort.appendChild(todoDateSortTitle)
+    
+    const byToday = elFactory('button', {class: 'sidebar-selection'}, 'For today')
+    todoDateSort.appendChild(byToday)
+    const byWeek = elFactory('button', {class: 'sidebar-selection'}, 'This')
+    todoDateSort.appendChild(byWeek)
+    const allTodos = elFactory('button', {class: 'sidebar-selection'}, 'All Todos')
+    todoDateSort.appendChild(allTodos)
+
+    selectionWrapper.appendChild(todoDateSort)
+
+    const projectsSort = elFactory('div', {class: 'sidebar-group'})
+    const projectsSortTitle = elFactory('h2', {class: 'sidebar-group-title'})
+    projectsSortTitle.textContent = 'Projects'
+    projectsSort.appendChild(projectsSortTitle)
+
+    selectionWrapper.appendChild(projectsSort)
+
     return sidebar
 }

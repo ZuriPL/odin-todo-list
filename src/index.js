@@ -6,27 +6,84 @@ import './css/body.css'
 
 
 const sidebar = sidebarF()
-const { topbar, themeToggleButton, lightIcon, darkIcon } = topbarF()
+const topbar = topbarF()
 
+const displayController = (() => {
+    const createPage = () => {
+        document.body.innerHTML = ''
 
-let isLight = false
-function switchTheme() {
-    isLight = !isLight
-    if (isLight) {
-        document.querySelector(':root').style = '--text: black; --bg-1: var(--light-100); --bg-3: var(--light-300);'
-        themeToggleButton.innerHTML = darkIcon
-    } else {
-        document.querySelector(':root').style = '--text: white; --bg-1: var(--dark-100); --bg-3: var(--dark-300);'
-        themeToggleButton.innerHTML = lightIcon
+        document.body.appendChild(sidebar)
+        document.body.appendChild(topbar)
+
+        setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
+    }
+
+    const createSidebarButtons = () => [
+
+    ]
+
+    return {
+        createPage
+    }
+})()
+
+class Todo {
+    constructor(name, description, dueDate, color) {
+        this.name = name
+        this.description = description
+        this.dueDate = dueDate
+        this.color = color
     }
 }
-switchTheme()
 
-document.body.appendChild(sidebar)
-document.body.appendChild(topbar)
+const logicController = (() => {
+    let projectsArray = [
+        {
+            name: 'Tutorial Project',
+            todos: []
+        },
+        {
+            name: 'Project 1',
+            todos: []
+        },
+        {
+            name: 'Project 2',
+            todos: []
+        },
+        {
+            name: 'Project xD',
+            todos: []
+        },
 
-document.querySelector('#theme-switch').addEventListener('click', _ => {
-    switchTheme()
-})
+    ]
 
-setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
+    let currentProject = projectsArray[0]
+
+    const getCurrentProject = () => {
+        return currentProject
+    }
+
+    const pushTodoToProject = (obj, project = getCurrentProject()) => {
+        project.todos.push(obj)
+    }
+
+    return {
+        projectsArray,
+        currentProject,
+        pushTodoToProject,
+        getCurrentProject
+    }
+})()
+
+
+displayController.createPage()
+
+
+function makeTodo(name, description, dueDate, color) {
+    const todo = new Todo(...arguments)
+    logicController.pushTodoToProject(todo)
+    return todo
+}
+
+console.log(makeTodo('mother', 'dog', '12', 'black'))
+console.log(logicController.projectsArray)

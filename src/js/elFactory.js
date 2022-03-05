@@ -1,6 +1,6 @@
 import _, { keys } from "lodash"
 
-export default function(type, properties = {}) {
+export default function(type, properties = {}, text = '') {
     const el = document.createElement(type)
 
     let keys = Object.keys(properties)
@@ -9,6 +9,8 @@ export default function(type, properties = {}) {
         if (properties[key].constructor === Array) properties[key] = _.join(properties[key], ' ')
         el.setAttribute(key, properties[key])
     })
+
+    el.textContent = text
 
     return el
 }

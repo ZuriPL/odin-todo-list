@@ -34,12 +34,6 @@
     font-size: 1em;
 }
 
-#topbar #search-wrapper label {
-    display: grid;
-    place-items: center;
-    color: var(--accent-color);
-}
-
 #topbar #theme-switch {
     border: none;
     background-color: transparent;
@@ -47,4 +41,11 @@
     margin: 0;
 }
 
+#topbar #theme-switch svg {
+    fill: var(--text);
+    transition: fill 250ms ease-out;
+}
+#topbar #theme-switch svg:hover {
+    fill: var(--accent-color);
+}
 

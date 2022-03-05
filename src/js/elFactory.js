@@ -1,18 +1,14 @@
-import _ from "lodash"
+import _, { keys } from "lodash"
 
-export default function(type, properties) {
+export default function(type, properties = {}) {
     const el = document.createElement(type)
-    
-    if (properties?.id != undefined) {
-        el.setAttribute('id', properties.id)
-        console.log('id')
-    }
 
-    if (properties?.class != undefined) {
-        console.log('class')
-        if (properties.class.constructor === Array) properties.class = _.join(properties.class, ' ')
-        el.setAttribute('class', properties.class)
-    }
+    let keys = Object.keys(properties)
+
+    keys.forEach(key => {
+        if (properties[key].constructor === Array) properties[key] = _.join(properties[key], ' ')
+        el.setAttribute(key, properties[key])
+    })
 
     return el
 }

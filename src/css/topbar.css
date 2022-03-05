@@ -2,7 +2,7 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    padding: 1rem;
+    padding: 1rem 2rem;
 }
 
 #topbar #search-wrapper {
@@ -41,26 +41,8 @@
 }
 
 #topbar #theme-switch {
-    display: none;
+    border: none;
+    background-color: transparent;
 }
 
-#topbar #theme-switch ~ label.light {
-    display: none;
-}
-#topbar #theme-switch:checked ~ label.light {
-    display: block;
-}
-#topbar #theme-switch ~ label.dark {
-    display: block;
-}
-#topbar #theme-switch:checked ~ label.dark {
-    display: none;
-}
 
-#topbar #theme-switch:checked ~ label.dark:focus-within {
-    outline: var(--outline);
-}
-
-#topbar #theme-switch ~ label.light:focus-within {
-    outline: var(--outline);
-}

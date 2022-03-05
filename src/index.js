@@ -6,26 +6,27 @@ import './css/body.css'
 
 
 const sidebar = sidebarF()
-const topbar = topbarF()
+const { topbar, themeToggleButton, lightIcon, darkIcon } = topbarF()
 
-let isLight = true
+
+let isLight = false
 function switchTheme() {
     isLight = !isLight
     if (isLight) {
         document.querySelector(':root').style = '--text: black; --bg-1: var(--light-100); --bg-3: var(--light-300);'
+        themeToggleButton.innerHTML = darkIcon
     } else {
         document.querySelector(':root').style = '--text: white; --bg-1: var(--dark-100); --bg-3: var(--dark-300);'
+        themeToggleButton.innerHTML = lightIcon
     }
 }
+switchTheme()
 
+document.body.appendChild(sidebar)
+document.body.appendChild(topbar)
 
-const body = elFactory('div', {class: 'body'})
-body.appendChild(sidebar)
-body.appendChild(topbar)
-document.body.appendChild(body)
-
-document.querySelector('input[type=checkbox]').addEventListener('click', _ => {
+document.querySelector('#theme-switch').addEventListener('click', _ => {
     switchTheme()
 })
 
-document.querySelector('body').classList.add('animations')
+setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)

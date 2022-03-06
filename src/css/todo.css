@@ -14,6 +14,10 @@
     margin-bottom: 0.125rem;
 }
 
+.todo-description {
+    overflow: hidden;
+}
+
 .todo-description,
 .todo-dueDate {
     text-overflow: ellipsis;
@@ -21,8 +25,12 @@
     font-size: 0.9rem;
 }
 
+.descWrapper {
+    max-width: 80%;
+}
+
 .infoWrapper::after,
-.descWrapper::after {
+.detailsWrapper::after {
     content: '';
     position: absolute;
     left: 0;
@@ -40,18 +48,19 @@
     position: relative;
 }
 
-.descWrapper {
+.detailsWrapper {
     display: flex;
     gap: 0.75rem;
     align-items: center;
     position: relative;
 }
 
-.descWrapper > * {
+.detailsWrapper > * {
     position: relative;
 }
 
-.descWrapper > *:not(:last-child)::after {
+.detailsWrapper > *:not(:last-child)::after,
+.todo-color::after {
     content: '';
     height: 12px;
     width: 1px;
@@ -61,10 +70,11 @@
     top: 2px;
     font-size: 1em;
     flex: 0 0 auto;
+    overflow: visible;
 }
 
-.todo-card input:checked ~ .infoWrapper .descWrapper > *:not(:last-child)::after,
-.todo-card input:checked ~ .infoWrapper .descWrapper .todo-color {
+.todo-card input:checked ~ .infoWrapper .detailsWrapper > *:not(:last-child)::after,
+.todo-card input:checked ~ .infoWrapper .detailsWrapper .todo-color {
     background-color: #d8d8d8;
 }
 
@@ -118,16 +128,12 @@
 }
 
 .todo-card input:checked ~ .infoWrapper::after, 
-.todo-card input:checked ~ .infoWrapper .descWrapper::after {
+.todo-card input:checked ~ .infoWrapper .detailsWrapper::after {
     width: 100%;
 }
 
 .todo-card input:checked ~ .infoWrapper *, 
-.todo-card input:checked ~ .infoWrapper .descWrapper * {
+.todo-card input:checked ~ .infoWrapper .detailsWrapper * {
     color: #d8d8d8;
 }
-/* .todo-card input:checked ~ .infoWrapper .todo-description, 
-.todo-card input:checked ~ .infoWrapper .todo-title {
-    text-decoration: line-through;
-} */
 

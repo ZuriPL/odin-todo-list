@@ -151,9 +151,9 @@ displayController.createPage()
 
 // DEBUG
 
-logicController.makeTodo('test', 'test', 'test', 'test')
-logicController.makeTodo('test', 'test', 'test', 'test')
-logicController.makeTodo('test', 'test', 'test', 'test')
+logicController.makeTodo('test', 'test', 'test', 'red')
+logicController.makeTodo('test', 'test', 'test', 'green')
+logicController.makeTodo('test', 'test', 'test', 'purple')
 
 const debugMenu = elFactory('div', {id: 'debug'})
 function debugx() {

@@ -12,17 +12,21 @@ export default function(todoObj) {
 
 
     const infoWrapper = elFactory('div', {class: 'infoWrapper'})
+    const descWrapper = elFactory('div', {class: 'descWrapper'})
     const titleEl = elFactory('p', {class: 'todo-title'}, title)
     const descriptionEl = elFactory('p', {class: 'todo-description'}, description)
     const dueDateEl = elFactory('p', {class: 'todo-dueDate'}, dueDate)
-    const colorEl = elFactory('div', {class: 'todo-color'})
+    const colorEl = elFactory('div', {class: ['todo-color', todoObj.color]})
+    const colorWrap = elFactory('div', {class: 'todo-color-wrapper'})
 
     card.appendChild(checkbox)
+    colorWrap.appendChild(colorEl)
 
     infoWrapper.appendChild(titleEl)
-    infoWrapper.appendChild(descriptionEl)
-    infoWrapper.appendChild(dueDateEl)
-    infoWrapper.appendChild(colorEl)
+    infoWrapper.appendChild(descWrapper)
+    descWrapper.appendChild(colorWrap)
+    descWrapper.appendChild(descriptionEl)
+    descWrapper.appendChild(dueDateEl)
 
     card.appendChild(infoWrapper)
 

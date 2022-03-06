@@ -7,6 +7,13 @@
     --dark-200: #161616;
     --dark-100: #202020;
     --outline: 2px solid var(--text);
+
+    --todo-red: rgb(255, 24, 24);
+    --todo-green: rgb(13, 197, 13);
+    --todo-blue: var(--accent-color);
+    --todo-purple: rgb(167, 0, 167);
+    --todo-yellow: yellow;
+    --todo-orange: hsl(36, 100%, 50%);
 }
 
 * {

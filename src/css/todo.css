@@ -105,6 +105,8 @@
     border: none;
     background-color: transparent;
     opacity: 0;
+    aspect-ratio: 1 / 1 ;
+    height: 24px;
     visibility: hidden;
     transition: opacity 250ms ease-out, visibility 0ms 250ms linear;
 }

@@ -41,8 +41,15 @@ const displayController = (() => {
         //     workspace.appendChild(todoEl)
         // })
         logicController.getCurrentProject().todos.forEach(todo => {
-            const todoEl = todoCardF(todo)
-            workspace.appendChild(todoEl)
+            const { card, deleteButton } = todoCardF(todo)
+            card.setAttribute('index', logicController.getCurrentProject().todos.indexOf(todo))
+            workspace.appendChild(card)
+            deleteButton.addEventListener('click', e => {
+                e.stopPropagation()
+                console.log(card)
+                workspace.removeChild(card)
+                logicController.removeTodo(card.getAttribute('index'))
+            })
         })
     }
 
@@ -114,6 +121,10 @@ const logicController = (() => {
         return currentProject
     }
 
+    const removeTodo = (index) => {
+        logicController.currentProject.todos.splice(index, 1)
+    }
+
     const pushTodoToProject = (obj, project = currentProject) => {
         project.todos.push(obj)
     }
@@ -138,7 +149,8 @@ const logicController = (() => {
         currentProject,
         makeTodo,
         getCurrentProject,
-        makeProject
+        makeProject,
+        removeTodo
     }
 })()
 
@@ -160,7 +172,7 @@ function debugx() {
     console.log(logicController.projectsArray)
 }
 function debugy() {
-    logicController.makeTodo('test', 'test', 'test', 'test')
+    logicController.makeTodo('name', 'desc', 'date', 'red')
 }
 function debuga() {
     console.log(logicController.getCurrentProject())

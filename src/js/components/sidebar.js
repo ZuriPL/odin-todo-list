@@ -16,9 +16,9 @@ export default function() {
     todoDateSortTitle.textContent = 'Priority'
     todoDateSort.appendChild(todoDateSortTitle)
     
-    const byToday = elFactory('button', {class: 'sidebar-selection'}, 'For today')
+    const byToday = elFactory('button', {class: 'sidebar-selection'}, 'Today')
     todoDateSort.appendChild(byToday)
-    const byWeek = elFactory('button', {class: 'sidebar-selection'}, 'This')
+    const byWeek = elFactory('button', {class: 'sidebar-selection'}, 'This week')
     todoDateSort.appendChild(byWeek)
     const allTodos = elFactory('button', {class: 'sidebar-selection'}, 'All Todos')
     todoDateSort.appendChild(allTodos)

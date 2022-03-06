@@ -25,10 +25,24 @@ const displayController = (() => {
         setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
 
         allTodos.addEventListener('click', e => {
-            logicController.viewAllTodos()
+            logicController.viewCertainTodos(logicController.getAllTodos())
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             allTodos.classList.add('active')
+        })
+
+        byToday.addEventListener('click', e => {
+            logicController.viewCertainTodos(logicController.getAllTodos())
+            Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
+            Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
+            byToday.classList.add('active')
+        })
+
+        byWeek.addEventListener('click', e => {
+            logicController.viewCertainTodos(logicController.getAllTodos())
+            Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
+            Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
+            byWeek.classList.add('active')
         })
     }
 
@@ -167,9 +181,9 @@ const logicController = (() => {
         displayController.renderTodos()
     }
 
-    const viewAllTodos = () => {
+    const viewCertainTodos = (todoArray, name = '') => {
         console.log('all todos')
-        currentProject = { name: '', todos: logicController.getAllTodos() }
+        currentProject = { name: name, todos: todoArray }
         displayController.renderTodos()
         console.log(logicController.currentProject)
     }
@@ -192,7 +206,7 @@ const logicController = (() => {
         changeProject,
         getAllTodos,
         setCurrentProject,
-        viewAllTodos
+        viewCertainTodos
     }
 })()
 

@@ -28,7 +28,9 @@ export default function(todoObj) {
     infoWrapper.appendChild(titleEl)
     infoWrapper.appendChild(detailsWrapper)
     detailsWrapper.appendChild(colorWrap)
+    detailsWrapper.appendChild(elFactory('p', {class: 'desc-separator'}, '|'))
     detailsWrapper.appendChild(descWrapper)
+    detailsWrapper.appendChild(elFactory('p', {class: 'desc-separator'}, '|'))
     detailsWrapper.appendChild(dueDateEl)
 
     card.appendChild(infoWrapper)

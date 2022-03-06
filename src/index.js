@@ -8,7 +8,7 @@ import todoCardF from './js/components/todo-card'
 import todoPopup from './js/components/todo-popup'
 
 
-const { sidebar, projectsSort, projectsSortTitle } = sidebarF()
+const { sidebar, projectsSort, projectsSortTitle, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
 const topbar = topbarF()
 const { workspace, addTodoButton } = workspaceF()
 
@@ -23,6 +23,13 @@ const displayController = (() => {
         displayController.renderTodos()
         displayController.renderProjectsButtons()
         setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
+
+        allTodos.addEventListener('click', e => {
+            logicController.viewAllTodos()
+            Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
+            Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
+            allTodos.classList.add('active')
+        })
     }
 
     const renderProjectsButtons = () => {
@@ -35,6 +42,7 @@ const displayController = (() => {
                 logicController.changeProject(logicController.projectsArray.indexOf(project))
                 console.log(e)
                 Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
+                Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
                 projectButton.classList.add('active')
             })
 
@@ -52,23 +60,16 @@ const displayController = (() => {
             workspace.appendChild(card)
             deleteButton.addEventListener('click', e => {
                 e.stopPropagation()
-                // console.log(card)
                 logicController.removeTodo(card.getAttribute('index'))
                 displayController.renderTodos()
             })
         })
     }
 
-    const addTodoForm = () => {
-        const { popup, popupBg } = todoPopup()
-        document.body.appendChild(popup)
-    }
-
     return {
         createPage,
         renderProjectsButtons,
         renderTodos,
-        addTodoForm
     }
 })()
 
@@ -125,11 +126,25 @@ const logicController = (() => {
             todos: []
         }
     ]
+
+    let getAllTodos = () => {
+        let all = []
+        logicController.projectsArray.forEach(project => {
+            all = all.concat(project.todos) 
+        })
+        console.log(all)
+        return all
+    }
     
     let currentProject = projectsArray[0]
 
     const getCurrentProject = () => {
         return currentProject
+    }
+
+    const setCurrentProject = (obj) => {
+        console.log(obj)
+        currentProject = obj
     }
 
     const removeTodo = (index) => {
@@ -152,6 +167,13 @@ const logicController = (() => {
         displayController.renderTodos()
     }
 
+    const viewAllTodos = () => {
+        console.log('all todos')
+        currentProject = { name: '', todos: logicController.getAllTodos() }
+        displayController.renderTodos()
+        console.log(logicController.currentProject)
+    }
+
     function makeProject(name) {
         logicController.projectsArray.push({
             name: name,
@@ -167,7 +189,10 @@ const logicController = (() => {
         getCurrentProject,
         makeProject,
         removeTodo,
-        changeProject
+        changeProject,
+        getAllTodos,
+        setCurrentProject,
+        viewAllTodos
     }
 })()
 
@@ -181,7 +206,6 @@ displayController.createPage()
 // DEBUG
 
 // logicController.changeProject(1)
-// logicController.makeTodo('test', 'test', 'test', 'red')
 // logicController.makeTodo('test', 'test', 'test', 'green')
 // logicController.makeTodo('test', 'test', 'test', 'purple')
 // logicController.changeProject(0)
@@ -199,8 +223,8 @@ function debuga() {
 function debugb() {
     logicController.makeProject('example project')
 }
-function debug5() {
-
+function debugc() {
+    logicController.getAllTodos()
 }
 
 debugMenu.innerHTML = `
@@ -227,5 +251,5 @@ document.querySelector('#debug4').addEventListener('click', e => {
     debugb()
 })
 document.querySelector('#debug5').addEventListener('click', e => {
-    debug5()
+    debugc()
 })

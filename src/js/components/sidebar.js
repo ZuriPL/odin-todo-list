@@ -32,5 +32,5 @@ export default function() {
 
     selectionWrapper.appendChild(projectsSort)
 
-    return { sidebar, projectsSort, projectsSortTitle }
+    return { sidebar, projectsSort, todoDateSort, projectsSortTitle, byToday, byWeek, allTodos }
 }

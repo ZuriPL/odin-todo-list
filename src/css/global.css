@@ -7,6 +7,7 @@
     --dark-200: #161616;
     --dark-100: #202020;
     --outline: 2px solid var(--text);
+    --box-shadow: 3px 3px 6px hsl(0 0% 0% / 0.35);
 
     --dark-alpha: hsla(0, 0%, 4%, 0.4);
     --light-alpha: hsla(0, 0%, 100%, 0.4);

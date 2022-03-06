@@ -15,8 +15,10 @@ export default function() {
 
     const newTodoNameInput = elFactory('input', {id: 'name-input', type: 'text'})
     const newTodoDescInput = elFactory('input', {id: 'desc-input', type: 'text'})
-    const newTodoNameLabel = elFactory('label', {class: 'form-label'}, 'Name')
-    const newTodoDescLabel = elFactory('label', {class: 'form-label'}, 'Description')
+    const newTodoDateInput = elFactory('input', {id: 'date-input', type: 'date'})
+    const newTodoNameLabel = elFactory('label', {class: 'form-label', for: 'name-input'}, 'Name')
+    const newTodoDescLabel = elFactory('label', {class: 'form-label', for: 'desc-input'}, 'Description')
+    const newTodoDateLabel = elFactory('label', {class: 'form-label', for: 'date-input'}, 'Description')
 
     newTodoForm.appendChild(closeButton)
     newTodoForm.appendChild(newTodoFormTitle)
@@ -24,6 +26,8 @@ export default function() {
     newTodoForm.appendChild(newTodoNameInput)
     newTodoForm.appendChild(newTodoDescLabel)
     newTodoForm.appendChild(newTodoDescInput)
+    newTodoForm.appendChild(newTodoDateLabel)
+    newTodoForm.appendChild(newTodoDateInput)
     // newTodoForm.appendChild()
     // newTodoForm.appendChild()
 

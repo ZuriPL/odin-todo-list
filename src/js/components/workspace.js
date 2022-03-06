@@ -11,9 +11,7 @@ export default function() {
     `)
     addTodoButton.addEventListener('click', e => {
         const { popup, popupBg } = todoPopupF()
-        popupBg.addEventListener('click', e => {
-            popupBg.remove()
-        })
+        
         document.body.appendChild(popupBg)
     })
 

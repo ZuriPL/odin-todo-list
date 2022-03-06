@@ -1,5 +1,6 @@
 import elFactory from "../elFactory"
 import '../../css/workspace.css'
+import todoPopupF from "./todo-popup"
 
 export default function() {
     const workspace = elFactory('div', {id: 'workspace'})
@@ -8,6 +9,13 @@ export default function() {
             <path fill="var(--accent-color)" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
         </svg>
     `)
+    addTodoButton.addEventListener('click', e => {
+        const { popup, popupBg } = todoPopupF()
+        popupBg.addEventListener('click', e => {
+            popupBg.remove()
+        })
+        document.body.appendChild(popupBg)
+    })
 
     workspace.appendChild(addTodoButton)
 

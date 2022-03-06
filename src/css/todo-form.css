@@ -1,0 +1,14 @@
+.todo-add-popup {
+    height: 100px;
+    width: 100px;
+    background-color: red;
+}
+
+.todo-form-bg {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(4px);
+    background-color: var(--bg-alpha);
+    display: grid;
+    place-items: center;
+}

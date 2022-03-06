@@ -8,6 +8,9 @@
     --dark-100: #202020;
     --outline: 2px solid var(--text);
 
+    --dark-alpha: hsla(0, 0%, 4%, 0.4);
+    --light-alpha: hsla(0, 0%, 100%, 0.4);
+
     --todo-red: rgb(255, 24, 24);
     --todo-green: rgb(13, 197, 13);
     --todo-blue: var(--accent-color);

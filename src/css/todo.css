@@ -72,8 +72,8 @@
     position: relative;
 }
 
-.todo-card input:checked ~ .infoWrapper .detailsWrapper > *:not(:last-child)::after,
-.todo-card input:checked ~ .infoWrapper .detailsWrapper .todo-color {
+.todo-card.done input ~ .infoWrapper .detailsWrapper > *:not(:last-child)::after,
+.todo-card.done input ~ .infoWrapper .detailsWrapper .todo-color {
     background-color: #d8d8d8;
 }
 
@@ -120,19 +120,19 @@
     transition: opacity 250ms ease-out, visibility 0ms 250ms linear;
 }
 
-.todo-card input:checked ~ .todo-delete-button {
+.todo-card .done input ~ .todo-delete-button {
     opacity: 1;
     visibility: visible;
     transition: opacity 250ms ease-in, visibility 0ms 0ms linear;
 }
 
-.todo-card input:checked ~ .infoWrapper::after, 
-.todo-card input:checked ~ .infoWrapper .detailsWrapper::after {
+.todo-card.done input ~ .infoWrapper::after, 
+.todo-card.done input ~ .infoWrapper .detailsWrapper::after {
     width: 100%;
 }
 
-.todo-card input:checked ~ .infoWrapper *, 
-.todo-card input:checked ~ .infoWrapper .detailsWrapper * {
+.todo-card.done input ~ .infoWrapper *, 
+.todo-card.done input ~ .infoWrapper .detailsWrapper * {
     color: #d8d8d8;
 }
 

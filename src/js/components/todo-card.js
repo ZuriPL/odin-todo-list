@@ -9,7 +9,14 @@ export default function(todoObj) {
     const color = todoObj.color
 
     const checkbox = elFactory('input', {type: 'checkbox', class: ['todo-check', color]})
+    if (todoObj.done) {
+        checkbox.checked = true
+    }
 
+    checkbox.addEventListener('change', e => {
+        todoObj.done = checkbox.checked
+        card.classList.toggle('done')
+    })
 
     const infoWrapper = elFactory('div', {class: 'infoWrapper'})
     const detailsWrapper = elFactory('div', {class: 'detailsWrapper'})
@@ -41,10 +48,6 @@ export default function(todoObj) {
         </svg>
     `)
     card.appendChild(deleteButton)
-
-    card.addEventListener('click', e => {
-        console.log(card)
-    })
 
     
     

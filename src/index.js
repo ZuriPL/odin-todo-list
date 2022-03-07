@@ -20,6 +20,11 @@ const displayController = (() => {
         document.body.appendChild(topbar)
         document.body.appendChild(workspace)
         
+        logicController.makeTodo('Welcome to Todo-List', 'This project was made for The Odin Project', new Date(), 'blue')
+        logicController.makeTodo('The sidebar on the left has your projects....', '...and a few shortcuts for your convienence too', new Date(), 'blue')
+        logicController.makeTodo('All of your todos are laid out in this section', 'And they are saved after you close your browser window', new Date(), 'blue')
+        logicController.makeTodo('Add a new todo using the button in the bottom-right corner', 'Have fun', new Date(), 'blue')
+
         displayController.renderTodos()
         displayController.renderProjectsButtons()
         setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
@@ -76,6 +81,10 @@ const displayController = (() => {
         logicController.getCurrentProject().todos.forEach(todo => {
             const { card, deleteButton } = todoCardF(todo)
             card.setAttribute('index', logicController.getCurrentProject().todos.indexOf(todo))
+            if (todo.done) {
+                console.log('done')
+                card.classList.add('done')
+            }
             workspace.appendChild(card)
             deleteButton.addEventListener('click', e => {
                 e.stopPropagation()
@@ -98,6 +107,7 @@ class Todo {
         this.description = description
         this.dueDate = dueDate
         this.color = color
+        this.done = false
     }
 }
 
@@ -105,32 +115,7 @@ const logicController = (() => {
     let projectsArray = [
         {
             name: 'Tutorial Project',
-            todos: [
-                {
-                    title: 'Welcome to Todo-List',
-                    description: 'This project was made for The Odin Projects',
-                    dueDate: 'none',
-                    color: 'blue'
-                },
-                {
-                    title: 'CLICK ME',
-                    description: 'To see all of my details',
-                    dueDate: 'none',
-                    color: 'blue'
-                },
-                {
-                    title: 'The sidebar on the left has your projects....',
-                    description: `... and a few shortcuts for your convienence too`,
-                    dueDate: 'none',
-                    color: 'blue'
-                },
-                {
-                    title: 'All of your todos are laid out in this section',
-                    description: 'And they are saved after you close your browser window',
-                    dueDate: 'none',
-                    color: 'blue'
-                },
-            ]
+            todos: []
         },
         {
             name: 'Project 1',

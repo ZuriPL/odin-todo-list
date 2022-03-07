@@ -25,7 +25,7 @@
 .todo-dueDate,
 .desc-separator {
     text-overflow: ellipsis;
-    color: #777;
+    color: var(--text-secondary);
     font-size: 0.9rem;
 }
 

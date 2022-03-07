@@ -64,3 +64,26 @@
 #form-close:hover svg {
     fill: var(--accent-color);
 }
+
+.color-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0.5rem;
+}
+
+#form-submit-btn {
+    padding: 0.75rem;
+    border-radius: 100vh;
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 700;
+    font-size: 1.25em;
+    border: none;
+    box-shadow: var(--box-shadow);
+    margin-top: 2rem;
+}
+
+#form-submit-btn:hover {
+    background-color: hsl(204, 100%, 45%);
+}

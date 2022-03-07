@@ -35,10 +35,10 @@ export default function() {
     function switchTheme() {
         isLight = !isLight
         if (isLight) {
-            document.querySelector(':root').style = '--text: #000; --bg-1: var(--light-100); --bg-2: var(--light-200); --bg-3: var(--light-300); --bg-alpha: var(--light-alpha);'
+            document.querySelector(':root').style = '--text: #000; --bg-1: var(--light-100); --bg-2: var(--light-200); --bg-3: var(--light-300); --bg-alpha: var(--light-alpha); --text-secondary: var(--light-secondary);'
             themeToggleButton.innerHTML = darkIcon
         } else {
-            document.querySelector(':root').style = '--text: #fff; --bg-1: var(--dark-100); --bg-2: var(--dark-200); --bg-3: var(--dark-300); --bg-alpha: var(--dark-alpha);'
+            document.querySelector(':root').style = '--text: #fff; --bg-1: var(--dark-100); --bg-2: var(--dark-200); --bg-3: var(--dark-300); --bg-alpha: var(--dark-alpha); --text-secondary: var(--dark-secondary);'
             themeToggleButton.innerHTML = lightIcon
         }
     }

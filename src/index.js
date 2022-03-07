@@ -5,7 +5,7 @@ import './css/global.css'
 import './css/body.css'
 import workspaceF from './js/components/workspace'
 import todoCardF from './js/components/todo-card'
-import todoPopup from './js/components/todo-popup'
+import todoPopupF from './js/components/todo-popup'
 
 
 const { sidebar, projectsSort, projectsSortTitle, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
@@ -43,6 +43,11 @@ const displayController = (() => {
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             byWeek.classList.add('active')
+        })
+
+        workspace.addEventListener('newTodo', e => {
+            console.log(e.detail.arguments.color)
+            logicController.makeTodo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
         })
     }
 

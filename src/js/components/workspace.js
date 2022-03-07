@@ -12,6 +12,15 @@ export default function() {
     addTodoButton.addEventListener('click', e => {
         const { popup, popupBg } = todoPopupF()
         
+        
+        popup.addEventListener('newTodo', e => {
+            const newTodoEvent = new CustomEvent('newTodo', { detail: {
+                arguments: e.detail.arguments
+            }})
+
+            workspace.dispatchEvent(newTodoEvent)
+        })
+
         document.body.appendChild(popupBg)
     })
 

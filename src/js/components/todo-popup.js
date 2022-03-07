@@ -13,29 +13,28 @@ export default function() {
         </svg>
     `)
 
-    const newTodoNameInput = elFactory('input', {id: 'name-input', type: 'text'})
-    const newTodoDescInput = elFactory('input', {id: 'desc-input', type: 'text'})
-    const newTodoDateInput = elFactory('input', {id: 'date-input', type: 'date'})
+    const newTodoNameInput = elFactory('input', {id: 'name-input', type: 'text', required: ''})
+    const newTodoDescInput = elFactory('input', {id: 'desc-input', type: 'text', required: ''})
+    const newTodoDateInput = elFactory('input', {id: 'date-input', type: 'date', required: ''})
     const newTodoNameLabel = elFactory('label', {class: 'form-label', for: 'name-input'}, 'Name')
     const newTodoDescLabel = elFactory('label', {class: 'form-label', for: 'desc-input'}, 'Description')
     const newTodoDateLabel = elFactory('label', {class: 'form-label', for: 'date-input'}, 'Description')
+    const newTodoColorLabel = elFactory('label', {class: 'form-label', for: 'color-input'}, 'Priority')
     
     const colorWrapper = elFactory('div', {class: 'color-wrapper'})
     const todoColorRed = elFactory('input', {type: 'radio', class: 'form-color-btn red', name: 'color-input'})
-    const todoColorBlue = elFactory('input', {type: 'radio', class: 'form-color-btn blue', name: 'color-input'})
+    const todoColorBlue = elFactory('input', {type: 'radio', class: 'form-color-btn blue', name: 'color-input', checked: ''})
     const todoColorGreen = elFactory('input', {type: 'radio', class: 'form-color-btn green', name: 'color-input'})
     const todoColorOrange = elFactory('input', {type: 'radio', class: 'form-color-btn orange', name: 'color-input'})
     const todoColorPurple = elFactory('input', {type: 'radio', class: 'form-color-btn purple', name: 'color-input'})
-    const todoColorYellow = elFactory('input', {type: 'radio', class: 'form-color-btn yellow', name: 'color-input'})
 
-    const submitFormBtn = elFactory('button', {type: 'button', id: 'form-submit-btn'}, 'Add')
+    const submitFormBtn = elFactory('button', {type: 'submit', id: 'form-submit-btn'}, 'Add')
 
-    colorWrapper.appendChild(todoColorRed)
     colorWrapper.appendChild(todoColorBlue)
     colorWrapper.appendChild(todoColorGreen)
     colorWrapper.appendChild(todoColorOrange)
+    colorWrapper.appendChild(todoColorRed)
     colorWrapper.appendChild(todoColorPurple)
-    colorWrapper.appendChild(todoColorYellow)
 
     newTodoForm.appendChild(closeButton)
     newTodoForm.appendChild(newTodoFormTitle)
@@ -45,6 +44,7 @@ export default function() {
     newTodoForm.appendChild(newTodoDescInput)
     newTodoForm.appendChild(newTodoDateLabel)
     newTodoForm.appendChild(newTodoDateInput)
+    newTodoForm.appendChild(newTodoColorLabel)
     newTodoForm.appendChild(colorWrapper)
     newTodoForm.appendChild(submitFormBtn)
 
@@ -62,6 +62,21 @@ export default function() {
 
     closeButton.addEventListener('click', e => {
         e.preventDefault()
+        popupBg.remove()
+    })
+    
+    newTodoForm.addEventListener('submit', e => {
+        e.preventDefault()
+        const newTodoEvent = new CustomEvent('newTodo', { detail: {
+            arguments: {
+                name: newTodoNameInput.value,
+                description: newTodoDescInput.value,
+                dueDate: newTodoDateInput.value,
+                color: document.querySelector('input[type="radio"]:checked.form-color-btn').getAttribute('class').split(' ')[1]
+            }
+        }
+        })
+        popup.dispatchEvent(newTodoEvent)
         popupBg.remove()
     })
 

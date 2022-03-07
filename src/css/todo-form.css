@@ -15,10 +15,52 @@
 .todo-add-popup input {
     background-color: var(--bg-3);
     border-radius: 100vh;
-    padding: 0.75rem 1rem;
+    padding: 1rem;
     box-shadow: var(--box-shadow);
     color: var(--text);
     border: none;
+    width: 250px;
+}
+
+.todo-add-popup input[type="radio"] {
+    width: unset;
+    box-shadow: none;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.todo-add-popup input[type="radio"].red::before {
+    background-color: var(--todo-red);
+}
+.todo-add-popup input[type="radio"].blue::before {
+    background-color: var(--todo-blue);
+}
+.todo-add-popup input[type="radio"].green::before {
+    background-color: var(--todo-green);
+}
+.todo-add-popup input[type="radio"].purple::before {
+    background-color: var(--todo-purple);
+}
+.todo-add-popup input[type="radio"].orange::before {
+    background-color: var(--todo-orange);
+}
+
+.todo-add-popup input[type="radio"]::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 100%;
+    background-color: var(--accent-color);
+    box-shadow: var(--box-shadow);
+}
+
+.todo-add-popup input[type="radio"]:checked::after {
+    content: '\2713';
+    position: absolute;
+    right: 0px;
+    color: white;
+    font-size: 1.1em;
 }
 
 .todo-add-popup input::placeholder {
@@ -43,7 +85,7 @@
 } */
 
 #form-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
 }
 
@@ -69,7 +111,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 0.5rem;
+    padding: 0.25rem 0.75rem;
 }
 
 #form-submit-btn {

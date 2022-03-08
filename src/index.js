@@ -77,7 +77,7 @@ const displayController = (() => {
 
             projectButtonEdit.addEventListener('click', e => {
                 e.stopPropagation()
-                console.log(project.name)
+                console.log(project)
             })
 
             projectButtonWrapper.appendChild(projectButton)
@@ -131,6 +131,7 @@ class Todo {
         this.dueDate = dueDate
         this.color = color
         this.done = false
+        this.project = logicController.projectsArray.indexOf(logicController.getCurrentProject())
     }
 }
 
@@ -254,7 +255,7 @@ debugMenu.innerHTML = `
 <button id="debug2">Add a todo to the current project</button>
 <button id="debug3">Print current project</button>
 <button id="debug4">add a project</button>
-<button id="debug5">change to next project</button>
+<button id="debug5">print all todos</button>
 `
 
 document.body.appendChild(debugMenu)

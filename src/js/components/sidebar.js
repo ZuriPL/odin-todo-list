@@ -12,8 +12,7 @@ export default function() {
     sidebar.appendChild(selectionWrapper)
     
     const todoDateSort = elFactory('div', {class: 'sidebar-group'})
-    const todoDateSortTitle = elFactory('h2', {class: 'sidebar-group-title'})
-    todoDateSortTitle.textContent = 'Priority'
+    const todoDateSortTitle = elFactory('h2', {class: 'sidebar-group-title'}, 'Priority')
     todoDateSort.appendChild(todoDateSortTitle)
     
     const byToday = elFactory('button', {class: 'sidebar-selection'}, 'Today')
@@ -26,11 +25,18 @@ export default function() {
     selectionWrapper.appendChild(todoDateSort)
 
     const projectsSort = elFactory('div', {class: 'sidebar-group'})
-    const projectsSortTitle = elFactory('h2', {class: 'sidebar-group-title'})
-    projectsSortTitle.textContent = 'Projects'
-    projectsSort.appendChild(projectsSortTitle)
+    const projectsSortTitle = elFactory('h2', {class: 'sidebar-group-title'}, 'Projects')
+    const projectsSortTitleWrapper = elFactory('div', {class: 'sidebar-group-title-wrapper'})
+    const newProjectButton = elFactory('button', {class: 'sidebar-new-project-btn'}, `
+        <svg style="width:48px; height: auto;" viewBox="0 0 24 24">
+            <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+        </svg>
+    `)
+    projectsSortTitleWrapper.appendChild(projectsSortTitle)
+    projectsSortTitleWrapper.appendChild(newProjectButton)
+    projectsSort.appendChild(projectsSortTitleWrapper)
 
     selectionWrapper.appendChild(projectsSort)
 
-    return { sidebar, projectsSort, todoDateSort, projectsSortTitle, byToday, byWeek, allTodos }
+    return { sidebar, projectsSort, todoDateSort, projectsSortTitleWrapper, byToday, byWeek, allTodos }
 }

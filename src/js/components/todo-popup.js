@@ -55,15 +55,18 @@ export default function() {
         e.stopPropagation()
     })
 
-    popupBg.addEventListener('click', e => {
+    function removeBg(e) {
+        if (e instanceof KeyboardEvent && e.key != 'Escape') return
+        let isEvent = (e instanceof KeyboardEvent || e instanceof PointerEvent)
+        if (e instanceof Event && !isEvent) return
         e.stopPropagation()
         popupBg.remove()
-    })
+        document.body.removeEventListener('keydown', removeBg)
+    }
 
-    closeButton.addEventListener('click', e => {
-        e.preventDefault()
-        popupBg.remove()
-    })
+    popupBg.addEventListener('click', removeBg)
+    closeButton.addEventListener('click', removeBg)
+    document.body.addEventListener('keydown', removeBg)
     
     newTodoForm.addEventListener('submit', e => {
         e.preventDefault()

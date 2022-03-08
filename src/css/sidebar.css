@@ -30,6 +30,7 @@
     flex-direction: column;
     flex-grow: 0;
     gap: 2rem;
+    margin-top: 1rem;
 }
 
 .sidebar-group {
@@ -47,18 +48,70 @@
     font-size: 1rem;
     font-weight: 700;
     text-align: left;
+    transition: color 250ms ease-out !important;
+}
+
+.sidebar-project-selection {
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: transparent;
+    border: none;
+}
+
+.sidebar-selection-wrapper {
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     transition: background-color 0ms linear !important;
 }
 
-.sidebar-selection:hover {
+.sidebar-selection:hover,
+.sidebar-selection-wrapper:hover {
     background-color: var(--bg-2);
 }
 
-.sidebar-selection.active {
+.sidebar-selection.active,
+.sidebar-selection-wrapper.active .sidebar-project-selection {
     color: var(--accent-color);
 }
 
 
+.sidebar-new-project-btn,
+.edit-btn {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1;
+}
+
+.sidebar-new-project-btn {
+    border-radius: 100%;
+    margin-right: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar-new-project-btn:hover {
+    background-color: var(--bg-2);
+}
+
+.edit-btn:hover svg path {
+    fill: var(--accent-color) !important;
+}
+
+.sidebar-group-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-group-title {
+    font-size: 1.75rem;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+}
 
 
 

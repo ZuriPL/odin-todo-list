@@ -41,11 +41,11 @@
     margin: 0;
 }
 
-#topbar #theme-switch svg {
+#topbar #theme-switch svg path {
     fill: var(--text);
     transition: fill 250ms ease-out;
 }
-#topbar #theme-switch svg:hover {
+#topbar #theme-switch svg:hover path {
     fill: var(--accent-color);
 }
 

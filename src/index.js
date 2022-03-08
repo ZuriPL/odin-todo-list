@@ -8,7 +8,7 @@ import todoCardF from './js/components/todo-card'
 import todoPopupF from './js/components/todo-popup'
 
 
-const { sidebar, projectsSort, projectsSortTitle, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
+const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
 const topbar = topbarF()
 const { workspace, addTodoButton } = workspaceF()
 
@@ -20,10 +20,17 @@ const displayController = (() => {
         document.body.appendChild(topbar)
         document.body.appendChild(workspace)
         
-        logicController.makeTodo('Welcome to Todo-List', 'This project was made for The Odin Project', new Date(), 'blue')
-        logicController.makeTodo('The sidebar on the left has your projects....', '...and a few shortcuts for your convienence too', new Date(), 'blue')
-        logicController.makeTodo('All of your todos are laid out in this section', 'And they are saved after you close your browser window', new Date(), 'blue')
-        logicController.makeTodo('Add a new todo using the button in the bottom-right corner', 'Have fun', new Date(), 'blue')
+        let today = new Date()
+        today = today.toLocaleDateString().split('.')
+        if (today[0].toString().length == 1) {
+            today[0] = '0' + today[0]
+        }
+        today = `${today[2]}-${today[1]}-${today[0]}`
+
+        logicController.makeTodo('Welcome to Todo-List', 'This project was made for The Odin Project', today, 'blue')
+        logicController.makeTodo('The sidebar on the left has your projects....', '...and a few shortcuts for your convienence too', today, 'blue')
+        logicController.makeTodo('All of your todos are laid out in this section', 'And they are saved after you close your browser window', today, 'blue')
+        logicController.makeTodo('Add a new todo using the button in the bottom-right corner', 'Have fun!', today, 'blue')
 
         displayController.renderTodos()
         displayController.renderProjectsButtons()
@@ -58,19 +65,32 @@ const displayController = (() => {
 
     const renderProjectsButtons = () => {
         projectsSort.innerHTML = '';
-        projectsSort.appendChild(projectsSortTitle)
+        projectsSort.appendChild(projectsSortTitleWrapper)
         logicController.projectsArray.forEach(project => {
-            const projectButton = elFactory('button', {class: 'sidebar-selection'}, project.name)
+            const projectButton = elFactory('button', {class: 'sidebar-project-selection'}, project.name)
+            const projectButtonWrapper = elFactory('div', {class: 'sidebar-selection-wrapper'})
+            const projectButtonEdit = elFactory('button', {class: 'sidebar-edit edit-btn'}, `
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                </svg>
+            `)
 
-            projectButton.addEventListener('click', e => {
-                logicController.changeProject(logicController.projectsArray.indexOf(project))
-                console.log(e)
-                Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
-                Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
-                projectButton.classList.add('active')
+            projectButtonEdit.addEventListener('click', e => {
+                e.stopPropagation()
+                console.log(project.name)
             })
 
-            projectsSort.appendChild(projectButton)
+            projectButtonWrapper.appendChild(projectButton)
+            projectButtonWrapper.appendChild(projectButtonEdit)
+
+            projectButtonWrapper.addEventListener('click', e => {
+                logicController.changeProject(logicController.projectsArray.indexOf(project))
+                Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
+                Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
+                projectButtonWrapper.classList.add('active')
+            })
+
+            projectsSort.appendChild(projectButtonWrapper)
         })
         projectsSort.children[logicController.projectsArray.indexOf(logicController.getCurrentProject()) + 1].classList.add('active')
     }
@@ -82,7 +102,6 @@ const displayController = (() => {
             const { card, deleteButton } = todoCardF(todo)
             card.setAttribute('index', logicController.getCurrentProject().todos.indexOf(todo))
             if (todo.done) {
-                console.log('done')
                 card.classList.add('done')
             }
             workspace.appendChild(card)
@@ -208,11 +227,6 @@ displayController.createPage()
 
 
 // DEBUG
-
-// logicController.changeProject(1)
-// logicController.makeTodo('test', 'test', 'test', 'green')
-// logicController.makeTodo('test', 'test', 'test', 'purple')
-// logicController.changeProject(0)
 
 const debugMenu = elFactory('div', {id: 'debug'})
 function debugx() {

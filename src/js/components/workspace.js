@@ -11,12 +11,11 @@ export default function() {
     `)
     addTodoButton.addEventListener('click', e => {
         const { popup, popupBg } = todoPopupF()
+        addTodoButton.blur()
         
         
         popup.addEventListener('newTodo', e => {
-            const newTodoEvent = new CustomEvent('newTodo', { detail: {
-                arguments: e.detail.arguments
-            }})
+            const newTodoEvent = new CustomEvent('newTodo', { detail: e.detail})
 
             workspace.dispatchEvent(newTodoEvent)
         })

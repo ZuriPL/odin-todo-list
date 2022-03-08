@@ -1,5 +1,6 @@
 :root {
     --accent-color: #0099FF;
+    --darker-accent-color: hsl(204, 100%, 45%);
     --light-100: #fefefe;
     --light-200: #f0f0f0;
     --light-300: #eaf0f5;
@@ -29,8 +30,9 @@
     box-sizing: border-box;
     padding: 0;
     color: var(--text);
+    fill: var(--text);
 }
 
 .animations *, .animations {
-    transition: background-color 250ms ease-out, color 250ms ease-out;
+    transition: background-color 250ms ease-out, color 250ms ease-out, fill 250ms ease-out;
 }

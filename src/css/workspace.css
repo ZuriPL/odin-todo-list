@@ -21,7 +21,7 @@
     border: none;
 }
 
-#workspace-add-btn:hover,
-#workspace-add-btn:focus {
-    background-color: var(--bg-2);
+#workspace-add-btn:hover svg path,
+#workspace-add-btn:focus svg path {
+    fill: var(--accent-color);
 }

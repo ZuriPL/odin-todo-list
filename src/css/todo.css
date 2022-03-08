@@ -109,7 +109,7 @@
     background-color: var(--todo-orange);
 }
 
-.todo-delete-button {
+.todo-button {
     border: none;
     background-color: transparent;
     opacity: 0;
@@ -119,11 +119,12 @@
     transition: opacity 400ms ease-out, visibility 0ms 500ms linear;
 }
 
-.todo-delete-button:hover svg path {
+.todo-button:hover svg path {
     fill: var(--accent-color);
 }
 
-.todo-card.done input ~ .todo-delete-button {
+.todo-card.done input ~ .todo-button
+,.todo-card:hover .todo-button {
     opacity: 1;
     visibility: visible;
     transition: opacity 500ms ease-out, visibility 0ms 0ms linear;

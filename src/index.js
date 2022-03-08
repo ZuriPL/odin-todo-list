@@ -99,16 +99,20 @@ const displayController = (() => {
         workspace.innerHTML = ''
         workspace.appendChild(addTodoButton)
         logicController.getCurrentProject().todos.forEach(todo => {
-            const { card, deleteButton } = todoCardF(todo)
+            const { card, specialButton } = todoCardF(todo)
             card.setAttribute('index', logicController.getCurrentProject().todos.indexOf(todo))
             if (todo.done) {
                 card.classList.add('done')
             }
             workspace.appendChild(card)
-            deleteButton.addEventListener('click', e => {
-                e.stopPropagation()
-                logicController.removeTodo(card.getAttribute('index'))
-                displayController.renderTodos()
+            specialButton.addEventListener('click', e => {
+                if (logicController.currentProject.todos[card.getAttribute('index')].done) {
+                    e.stopPropagation()
+                    logicController.removeTodo(card.getAttribute('index'))
+                    displayController.renderTodos()
+                } else {
+                    console.log(logicController.currentProject.todos[card.getAttribute('index')])
+                }
             })
         })
     }

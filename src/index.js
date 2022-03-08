@@ -37,7 +37,7 @@ const displayController = (() => {
         setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
 
         allTodos.addEventListener('click', e => {
-            logicController.viewCertainTodos(logicController.getAllTodos())
+            displayController.renderTodos2(logicController.getAllTodos())
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             allTodos.classList.add('active')
@@ -106,12 +106,34 @@ const displayController = (() => {
             }
             workspace.appendChild(card)
             specialButton.addEventListener('click', e => {
-                if (logicController.currentProject.todos[card.getAttribute('index')].done) {
+                if (todo.done) {
                     e.stopPropagation()
-                    logicController.removeTodo(card.getAttribute('index'))
+                    logicController.removeTodo(todo, card.getAttribute('index'))
                     displayController.renderTodos()
                 } else {
-                    console.log(logicController.currentProject.todos[card.getAttribute('index')])
+                    console.log(todo)
+                }
+            })
+        })
+    }
+    const renderTodos2 = (project) => {
+        workspace.innerHTML = ''
+        workspace.appendChild(addTodoButton)
+        project.forEach(todo => {
+            const { card, specialButton } = todoCardF(todo)
+            card.setAttribute('index', todo.project.todos.indexOf(todo))
+            if (todo.done) {
+                card.classList.add('done')
+            }
+            workspace.appendChild(card)
+            specialButton.addEventListener('click', e => {
+                if (todo.done) {
+                    e.stopPropagation()
+                    logicController.removeTodo(todo, card.getAttribute('index'))
+                    console.log(card)
+                    displayController.renderTodos2(logicController.getAllTodos())
+                } else {
+                    console.log(todo)
                 }
             })
         })
@@ -121,6 +143,7 @@ const displayController = (() => {
         createPage,
         renderProjectsButtons,
         renderTodos,
+        renderTodos2,
     }
 })()
 
@@ -131,7 +154,7 @@ class Todo {
         this.dueDate = dueDate
         this.color = color
         this.done = false
-        this.project = logicController.projectsArray.indexOf(logicController.getCurrentProject())
+        this.project = logicController.getCurrentProject()
     }
 }
 
@@ -160,7 +183,6 @@ const logicController = (() => {
         logicController.projectsArray.forEach(project => {
             all = all.concat(project.todos) 
         })
-        console.log(all)
         return all
     }
     
@@ -175,9 +197,12 @@ const logicController = (() => {
         currentProject = obj
     }
 
-    const removeTodo = (index) => {
-        currentProject.todos.splice(index, 1)
+    const removeTodo = (obj, index) => {
+        obj.project.todos.splice(index, 1)
     }
+    // const removeTodo = (index) => {
+    //     currentProject.todos.splice(index, 1)
+    // }
 
     const pushTodoToProject = (obj, project = currentProject) => {
         project.todos.push(obj)
@@ -196,10 +221,8 @@ const logicController = (() => {
     }
 
     const viewCertainTodos = (todoArray, name = '') => {
-        console.log('all todos')
         currentProject = { name: name, todos: todoArray }
         displayController.renderTodos()
-        console.log(logicController.currentProject)
     }
 
     function makeProject(name) {

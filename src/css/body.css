@@ -7,6 +7,28 @@ body {
     background-color: var(--bg-3);
 }
 
+ul {
+    list-style: none;
+    overflow: overlay;
+}
+
+::-webkit-scrollbar {
+    width: 0.65em;
+}
+
+::-webkit-scrollbar-track {
+    margin-bottom: -5px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 100vmax;
+    background-color: var(--accent-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--darker-accent-color);
+}
+
 /* DEBUG STYLING */
 
 #debug {

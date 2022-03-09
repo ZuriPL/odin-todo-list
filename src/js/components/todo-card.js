@@ -2,7 +2,7 @@ import elFactory from "../elFactory"
 import '../../css/todo.css'
 
 export default function(todoObj) {
-    const card = elFactory('div', {class: 'todo-card'})
+    const card = elFactory('li', {class: 'todo-card'})
     const title = todoObj.title
     const description = todoObj.description
     const dueDate = todoObj.dueDate

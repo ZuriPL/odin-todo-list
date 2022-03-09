@@ -159,7 +159,6 @@
 }
 
 .todo-card input:checked::before {
-    content: '';
     color: white;
     font-size: 0.7rem;
     background-color: var(--accent-color);
@@ -179,4 +178,11 @@
     transform: translateY(-17%) translateX(18%);
     color: white;
     visibility: visible;
+}
+
+/* firefox detection */
+@-moz-document url-prefix() {
+    .todo-card input {
+        visibility: visible;
+    }
 }

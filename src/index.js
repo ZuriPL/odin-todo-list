@@ -6,6 +6,7 @@ import './css/body.css'
 import workspaceF from './js/components/workspace'
 import todoCardF from './js/components/todo-card'
 import todoPopupF from './js/components/todo-popup'
+import projectPopupF from './js/components/project-popup'
 
 
 const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
@@ -200,9 +201,6 @@ const logicController = (() => {
     const removeTodo = (obj, index) => {
         obj.project.todos.splice(index, 1)
     }
-    // const removeTodo = (index) => {
-    //     currentProject.todos.splice(index, 1)
-    // }
 
     const pushTodoToProject = (obj, project = currentProject) => {
         project.todos.push(obj)
@@ -270,7 +268,8 @@ function debugb() {
     logicController.makeProject('example project')
 }
 function debugc() {
-    logicController.getAllTodos()
+    const { projectPopup, projectPopupBg } = projectPopupF()
+    document.body.appendChild(projectPopupBg)
 }
 
 debugMenu.innerHTML = `

@@ -7,6 +7,7 @@ import workspaceF from './js/components/workspace'
 import todoCardF from './js/components/todo-card'
 import editPopupF from './js/components/edit-popup'
 import projectPopupF from './js/components/project-popup'
+import Sortable from 'sortablejs'
 
 
 const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
@@ -20,6 +21,9 @@ const displayController = (() => {
         document.body.appendChild(sidebar)
         document.body.appendChild(topbar)
         document.body.appendChild(workspace)
+        let sortable = Sortable.create(workspace, {
+            handle: '.handle'
+        })
         
         let today = new Date()
         today = today.toLocaleDateString().split('.')

@@ -97,10 +97,16 @@ const displayController = (() => {
                 const { projectPopup, projectPopupBg } = projectPopupF('Edit')
                 projectButtonEdit.blur()
                 
-                
                 projectPopup.addEventListener('newProject', e => {
                     project.name = e.detail.name
                     renderProjectsButtons()
+                })
+                projectPopup.addEventListener('delProject', e => {
+                    logicController.projectsArray.splice(logicController.projectsArray.indexOf(project), 1)
+                    renderProjectsButtons()
+                    if (!logicController.projectsArray.includes(logicController.currentProject)) {
+                        projectsSort.children[1].click()
+                    }
                 })
                 
                 document.body.appendChild(projectPopupBg)

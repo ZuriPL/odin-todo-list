@@ -120,7 +120,8 @@ body.dark input::-webkit-calendar-picker-indicator {
     padding: 0.25rem 0.75rem;
 }
 
-#form-submit-btn {
+#form-submit-btn,
+#form-del-btn {
     padding: 0.75rem;
     border-radius: 100vh;
     background-color: var(--accent-color);
@@ -134,4 +135,13 @@ body.dark input::-webkit-calendar-picker-indicator {
 
 #form-submit-btn:hover {
     background-color: hsl(204, 100%, 45%);
+}
+
+#form-del-btn {
+    background-color: red;
+    margin-top: 0;
+}
+
+#form-del-btn:hover {
+    background-color: hsl(0, 100%, 45%);
 }

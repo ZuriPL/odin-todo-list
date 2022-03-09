@@ -17,13 +17,17 @@ export default function(str) {
     const newProjectNameLabel = elFactory('label', {class: 'form-label', for: 'name-input'}, 'Name')
 
 
-    const submitFormBtn = elFactory('button', {type: 'submit', id: 'form-submit-btn'}, 'Add')
+    const submitFormBtn = elFactory('button', {type: 'submit', id: 'form-submit-btn'}, str)
+    const delFormBtn = elFactory('button', {id: 'form-del-btn'}, 'Delete')
 
     newProjectForm.appendChild(closeButton)
     newProjectForm.appendChild(newProjectFormTitle)
     newProjectForm.appendChild(newProjectNameLabel)
     newProjectForm.appendChild(newProjectNameInput)
     newProjectForm.appendChild(submitFormBtn)
+    if (str === 'Edit') {
+        newProjectForm.appendChild(delFormBtn)
+    }
 
     projectPopup.appendChild(newProjectForm)
     projectPopupBg.appendChild(projectPopup)
@@ -52,6 +56,13 @@ export default function(str) {
         }
         })
         projectPopup.dispatchEvent(newProjectEvent)
+        projectPopupBg.remove()
+    })
+    
+    delFormBtn.addEventListener('click', e => {
+        e.preventDefault()
+        const delProjectEvent = new CustomEvent('delProject')
+        projectPopup.dispatchEvent(delProjectEvent)
         projectPopupBg.remove()
     })
 

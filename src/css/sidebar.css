@@ -56,12 +56,14 @@
     font-weight: 700;
     background-color: transparent;
     border: none;
+    margin-left: 1.5rem;
 }
 
 .sidebar-selection-wrapper {
     padding: 1rem 2rem;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    /* gap: 2rem; */
     align-items: center;
     transition: background-color 0ms linear !important;
 }
@@ -90,6 +92,8 @@
 .sidebar-edit {
     opacity: 0;
     transition: opacity 250ms ease-in-out !important;
+    margin-left: auto;
+    flex-grow: 0;
 }
 
 .sidebar-selection-wrapper:hover .sidebar-edit {

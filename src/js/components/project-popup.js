@@ -13,7 +13,7 @@ export default function(str) {
         </svg>
     `)
 
-    const newProjectNameInput = elFactory('input', {id: 'name-input', type: 'text', required: ''})
+    const newProjectNameInput = elFactory('input', {id: 'name-input', type: 'text', required: '', maxlength: 16})
     const newProjectNameLabel = elFactory('label', {class: 'form-label', for: 'name-input'}, 'Name')
 
 

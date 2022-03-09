@@ -5,8 +5,7 @@ import './css/global.css'
 import './css/body.css'
 import workspaceF from './js/components/workspace'
 import todoCardF from './js/components/todo-card'
-import todoPopupF from './js/components/todo-popup'
-import projectPopupF from './js/components/project-popup'
+import editPopupF from './js/components/edit-popup'
 
 
 const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
@@ -38,7 +37,7 @@ const displayController = (() => {
         setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
 
         allTodos.addEventListener('click', e => {
-            displayController.renderTodos2(logicController.getAllTodos())
+            displayController.renderTodos2(logicController.getAllTodos)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             allTodos.classList.add('active')
@@ -59,8 +58,11 @@ const displayController = (() => {
         })
 
         workspace.addEventListener('newTodo', e => {
-            console.log(e.detail.arguments.color)
             logicController.makeTodo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
+        })
+
+        sidebar.addEventListener('newProject', e => {
+            logicController.makeProject(e.detail.name)
         })
     }
 
@@ -113,11 +115,24 @@ const displayController = (() => {
                     displayController.renderTodos()
                 } else {
                     console.log(todo)
+
+                    const { editPopup, editPopupBg } = editPopupF()
+                    specialButton.blur()
+                    
+                    editPopup.addEventListener('editTodo', e => {
+                        console.log(e)
+                        console.log(todo.project.todos.indexOf(todo))
+                        todo.project.todos[todo.project.todos.indexOf(todo)] = new Todo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
+                        renderTodos()
+                    })
+            
+                    document.body.appendChild(editPopupBg)
                 }
             })
         })
     }
-    const renderTodos2 = (project) => {
+    const renderTodos2 = (projectFn) => {
+        let project = projectFn()
         workspace.innerHTML = ''
         workspace.appendChild(addTodoButton)
         project.forEach(todo => {
@@ -132,9 +147,20 @@ const displayController = (() => {
                     e.stopPropagation()
                     logicController.removeTodo(todo, card.getAttribute('index'))
                     console.log(card)
-                    displayController.renderTodos2(logicController.getAllTodos())
+                    displayController.renderTodos2(projectFn)
                 } else {
-                    console.log(todo)
+
+                    const { editPopup, editPopupBg } = editPopupF()
+                    specialButton.blur()
+                    
+                    editPopup.addEventListener('editTodo', e => {
+                        console.log(e)
+                        console.log(todo.project.todos.indexOf(todo))
+                        todo.project.todos[todo.project.todos.indexOf(todo)] = new Todo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
+                        renderTodos2(projectFn)
+                    })
+            
+                    document.body.appendChild(editPopupBg)
                 }
             })
         })
@@ -268,8 +294,8 @@ function debugb() {
     logicController.makeProject('example project')
 }
 function debugc() {
-    const { projectPopup, projectPopupBg } = projectPopupF()
-    document.body.appendChild(projectPopupBg)
+    const { editPopup, editPopupBg } = editPopupF()
+    document.body.appendChild(editPopupBg)
 }
 
 debugMenu.innerHTML = `

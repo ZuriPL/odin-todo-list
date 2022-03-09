@@ -1,5 +1,6 @@
 import elFactory from "../elFactory"
 import '../../css/sidebar.css'
+import projectPopupF from "./project-popup"
 
 export default function() {
     const sidebar = elFactory('div', {id: 'sidebar'})
@@ -37,6 +38,20 @@ export default function() {
     projectsSort.appendChild(projectsSortTitleWrapper)
 
     selectionWrapper.appendChild(projectsSort)
+
+    newProjectButton.addEventListener('click', e => {
+        const { projectPopup, projectPopupBg } = projectPopupF()
+        newProjectButton.blur()
+        
+        
+        projectPopup.addEventListener('newProject', e => {
+            const newProjectEvent = new CustomEvent('newProject', { detail: e.detail})
+
+            sidebar.dispatchEvent(newProjectEvent)
+        })
+
+        document.body.appendChild(projectPopupBg)
+    })
 
     return { sidebar, projectsSort, todoDateSort, projectsSortTitleWrapper, byToday, byWeek, allTodos }
 }

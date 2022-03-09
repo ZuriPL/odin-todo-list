@@ -6,6 +6,7 @@ import './css/body.css'
 import workspaceF from './js/components/workspace'
 import todoCardF from './js/components/todo-card'
 import editPopupF from './js/components/edit-popup'
+import projectPopupF from './js/components/project-popup'
 
 
 const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
@@ -80,7 +81,6 @@ const displayController = (() => {
 
             projectButtonEdit.addEventListener('click', e => {
                 e.stopPropagation()
-                console.log(project)
             })
 
             projectButtonWrapper.appendChild(projectButton)
@@ -91,6 +91,19 @@ const displayController = (() => {
                 Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
                 Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
                 projectButtonWrapper.classList.add('active')
+            })
+
+            projectButtonEdit.addEventListener('click', e => {
+                const { projectPopup, projectPopupBg } = projectPopupF('Edit')
+                projectButtonEdit.blur()
+                
+                
+                projectPopup.addEventListener('newProject', e => {
+                    project.name = e.detail.name
+                    renderProjectsButtons()
+                })
+                
+                document.body.appendChild(projectPopupBg)
             })
 
             projectsSort.appendChild(projectButtonWrapper)

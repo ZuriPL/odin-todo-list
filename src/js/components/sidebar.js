@@ -40,7 +40,7 @@ export default function() {
     selectionWrapper.appendChild(projectsSort)
 
     newProjectButton.addEventListener('click', e => {
-        const { projectPopup, projectPopupBg } = projectPopupF()
+        const { projectPopup, projectPopupBg } = projectPopupF('Add')
         newProjectButton.blur()
         
         

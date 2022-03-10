@@ -8,6 +8,7 @@ import todoCardF from './js/components/todo-card'
 import editPopupF from './js/components/edit-popup'
 import projectPopupF from './js/components/project-popup'
 import Sortable from 'sortablejs'
+import { kebabCase } from 'lodash'
 
 
 const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
@@ -31,17 +32,17 @@ const displayController = (() => {
             },
         })
         
-        let today = new Date()
-        today = today.toLocaleDateString().split('.')
-        if (today[0].toString().length == 1) {
-            today[0] = '0' + today[0]
-        }
-        today = `${today[2]}-${today[1]}-${today[0]}`
+        // let today = new Date()
+        // today = today.toLocaleDateString().split('.')
+        // if (today[0].toString().length == 1) {
+        //     today[0] = '0' + today[0]
+        // }
+        // today = `${today[2]}-${today[1]}-${today[0]}`
 
-        logicController.makeTodo('Welcome to Todo-List', 'This project was made for The Odin Project', today, 'blue')
-        logicController.makeTodo('The sidebar on the left has your projects....', '...and a few shortcuts for your convienence too', today, 'blue')
-        logicController.makeTodo('All of your todos are laid out in this section', 'And they are saved after you close your browser window', today, 'blue')
-        logicController.makeTodo('Add a new todo using the button in the bottom-right corner', 'Have fun!', today, 'blue')
+        // logicController.makeTodo('Welcome to Todo-List', 'This project was made for The Odin Project', today, 'blue')
+        // logicController.makeTodo('The sidebar on the left has your projects....', '...and a few shortcuts for your convienence too', today, 'blue')
+        // logicController.makeTodo('All of your todos are laid out in this section', 'And they are saved after you close your browser window', today, 'blue')
+        // logicController.makeTodo('Add a new todo using the button in the bottom-right corner', 'Have fun!', today, 'blue')
 
         displayController.renderTodos()
         displayController.renderProjectsButtons()
@@ -183,10 +184,6 @@ class Todo {
 const logicController = (() => {
     let projectsArray = [
         {
-            name: 'Tutorial Project',
-            todos: []
-        },
-        {
             name: 'Project 1',
             todos: []
         },
@@ -266,6 +263,68 @@ const logicController = (() => {
     }
 })()
 
+const storage = (() => {
+    const loadData = () => {
+        let data
+        if (true) { //localStorage.length == 0
+            let today = new Date()
+            today = today.toLocaleDateString().split('.')
+            if (today[0].toString().length == 1) {
+                today[0] = '0' + today[0]
+            }
+            today = `${today[2]}-${today[1]}-${today[0]}`
+        
+            data = [{
+                name: 'Tutorial Project',
+                todos: []
+            }]
+            logicController.makeTodo('Welcome to Todo-List', 'This project was made for The Odin Project', today, 'blue')
+            logicController.makeTodo('The sidebar on the left has your projects....', '...and a few shortcuts for your convienence too', today, 'blue')
+            logicController.makeTodo('All of your todos are laid out in this section', 'And they are saved after you close your browser window', today, 'blue')
+            logicController.makeTodo('Add a new todo using the button in the bottom-right corner', 'Have fun!', today, 'blue')
+            
+            // for (let i = 0; i < logicController.projectsArray.length; i++) {
+            //     for (j in logicController.projectsArray[i]) {
+                    
+            //     }
+            // }
+
+            console.log(logicController.projectsArray)
+            for (let i = 0; i < logicController.projectsArray.length; i++) {
+                window.localStorage.setItem(`project${i}-name`, logicController.projectsArray[i].name)
+                for (let j = 0; j < logicController.projectsArray[i].todos.length; j++) {
+                    window.localStorage.setItem(`project${i}-todo${j}`, JSON.stringify({
+                        title: logicController.currentProject.todos[j].title,
+                        description: logicController.currentProject.todos[j].description,
+                        dueDate: logicController.currentProject.todos[j].dueDate,
+                        color: logicController.currentProject.todos[j].color,
+                    }))
+                }
+            }
+
+            // console.log(JSON.parse(localStorage.getItem('todo0')))
+            
+            return data
+        } else {
+            data = eval(localStorage.getItem('todos'))
+            console.log(data)
+            return data
+        }
+    }
+
+    const updateTodoData = () => {
+
+    }
+
+    const updateTheme = () => {
+
+    } 
+
+    return {
+        loadData
+    }
+})()
+
 
 displayController.createPage()
 
@@ -289,8 +348,7 @@ function debugb() {
     logicController.makeProject('example project')
 }
 function debugc() {
-    const { editPopup, editPopupBg } = editPopupF()
-    document.body.appendChild(editPopupBg)
+    storage.loadData()
 }
 
 debugMenu.innerHTML = `
@@ -298,7 +356,7 @@ debugMenu.innerHTML = `
 <button id="debug2">Add a todo to the current project</button>
 <button id="debug3">Print current project</button>
 <button id="debug4">add a project</button>
-<button id="debug5">print all todos</button>
+<button id="debug5">load data</button>
 `
 
 document.body.appendChild(debugMenu)

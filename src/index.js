@@ -126,15 +126,15 @@ const displayController = (() => {
 
             projectsSort.appendChild(projectButtonWrapper)
         })
-        projectsSort.children[logicController.projectsArray.indexOf(logicController.getCurrentProject()) + 1].classList.add('active')
+        projectsSort.children[logicController.projectsArray.indexOf(logicController.currentProject) + 1].classList.add('active')
     }
 
     const renderTodos = () => {
         workspace.innerHTML = ''
         workspace.appendChild(addTodoButton)
-        logicController.getCurrentProject().todos.forEach(todo => {
+        logicController.currentProject.todos.forEach(todo => {
             const { card, specialButton } = todoCardF(todo)
-            card.setAttribute('index', logicController.getCurrentProject().todos.indexOf(todo))
+            card.setAttribute('index', logicController.currentProject.todos.indexOf(todo))
             if (todo.done) {
                 card.classList.add('done')
             }
@@ -177,7 +177,7 @@ class Todo {
         this.dueDate = dueDate
         this.color = color
         this.done = false
-        this.project = logicController.getCurrentProject()
+        this.project = logicController.currentProject
     }
 }
 
@@ -196,6 +196,10 @@ const logicController = (() => {
             todos: []
         }
     ]
+
+    const setProjectsArray = (value) => {
+        logicController.projectsArray = value
+    }
 
     let getAllTodos = () => {
         let all = []
@@ -220,24 +224,24 @@ const logicController = (() => {
         obj.project.todos.splice(index, 1)
     }
 
-    const pushTodoToProject = (obj, project = currentProject) => {
+    const pushTodoToProject = (obj, project = logicController.currentProject) => {
         project.todos.push(obj)
     }
 
     function makeTodo(title, description, dueDate, color) {
         const todo = new Todo(...arguments)
-        pushTodoToProject(todo)
+        logicController.pushTodoToProject(todo)
         displayController.renderTodos()
         return todo
     }
 
     const changeProject = (projectIndex) => {
-        currentProject = projectsArray[projectIndex]
+        logicController.currentProject = logicController.projectsArray[projectIndex]
         displayController.renderTodos()
     }
 
     const viewCertainTodos = (todoArray, name = '') => {
-        currentProject = { name: name, todos: todoArray }
+        logicController.currentProject = { name: name, todos: todoArray }
         displayController.renderTodos()
     }
 
@@ -259,61 +263,69 @@ const logicController = (() => {
         changeProject,
         getAllTodos,
         setCurrentProject,
-        viewCertainTodos
+        viewCertainTodos,
+        setProjectsArray,
+        pushTodoToProject
     }
 })()
 
 const storage = (() => {
     const loadData = () => {
-        let data
-        if (true) { //localStorage.length == 0
-            let today = new Date()
-            today = today.toLocaleDateString().split('.')
-            if (today[0].toString().length == 1) {
-                today[0] = '0' + today[0]
-            }
-            today = `${today[2]}-${today[1]}-${today[0]}`
-        
-            data = [{
-                name: 'Tutorial Project',
-                todos: []
-            }]
-            logicController.makeTodo('Welcome to Todo-List', 'This project was made for The Odin Project', today, 'blue')
-            logicController.makeTodo('The sidebar on the left has your projects....', '...and a few shortcuts for your convienence too', today, 'blue')
-            logicController.makeTodo('All of your todos are laid out in this section', 'And they are saved after you close your browser window', today, 'blue')
-            logicController.makeTodo('Add a new todo using the button in the bottom-right corner', 'Have fun!', today, 'blue')
-            
-            // for (let i = 0; i < logicController.projectsArray.length; i++) {
-            //     for (j in logicController.projectsArray[i]) {
-                    
-            //     }
-            // }
+        let data = JSON.parse(localStorage.getItem('todos_json'))
 
-            console.log(logicController.projectsArray)
-            for (let i = 0; i < logicController.projectsArray.length; i++) {
-                window.localStorage.setItem(`project${i}-name`, logicController.projectsArray[i].name)
-                for (let j = 0; j < logicController.projectsArray[i].todos.length; j++) {
-                    window.localStorage.setItem(`project${i}-todo${j}`, JSON.stringify({
-                        title: logicController.currentProject.todos[j].title,
-                        description: logicController.currentProject.todos[j].description,
-                        dueDate: logicController.currentProject.todos[j].dueDate,
-                        color: logicController.currentProject.todos[j].color,
-                    }))
-                }
-            }
-
-            // console.log(JSON.parse(localStorage.getItem('todo0')))
-            
-            return data
-        } else {
-            data = eval(localStorage.getItem('todos'))
-            console.log(data)
-            return data
+        if (data == null || data == {}) {
+            localStorage.setItem('todos_json', `
+                {"0":{"name":"Tutorial Project","todos":{"0":{"title":"Welcome to Todo-List","description":"This project was made for The Odin Projects","dueDate":"2022-03-10","color":"blue"},"1":{"title":"The sidebar on the left has your projects....","description":"...and a few shortcuts for your convienence too","dueDate":"2022-03-10","color":"blue"},"2":{"title":"All of your todos are laid out in this section","description":"And they are saved after you close your browser window","dueDate":"2022-03-10","color":"blue"}}}}
+            `)
         }
+
+        console.log('Data:')
+        console.log(data)
+        
+        logicController.setProjectsArray([])
+        
+        for (let i = 0; i < Object.keys(data).length; i++) {
+            let todos = []
+            for (let j = 0; j < Object.keys(data[i].todos).length; j++) {
+                const todo = new Todo(data[i].todos[j].title, data[i].todos[j].description, data[i].todos[j].dueDate, data[i].todos[j].color)
+                todos.push(todo)
+            }
+            let project = {
+                name: data[i].name,
+                todos: todos
+            }
+            logicController.projectsArray.push(project)
+            // logicController.makeTodo(data[i].todos)
+        }
+        logicController.changeProject(0)
+
+        displayController.renderTodos()
+        displayController.renderProjectsButtons()
     }
 
     const updateTodoData = () => {
+        // localStorage.clear() // !!!
+                
+        let projectsArrayJson = {}
+        for (let i = 0; i < logicController.projectsArray.length; i++) {
+            let todosObj = {}
 
+            for (let j = 0; j < logicController.projectsArray[i].todos.length; j++) {
+                todosObj[j.toString()] = {
+                    title: logicController.projectsArray[i].todos[j].title,
+                    description: logicController.projectsArray[i].todos[j].description,
+                    dueDate: logicController.projectsArray[i].todos[j].dueDate,
+                    color: logicController.projectsArray[i].todos[j].color,
+                }
+            }
+
+            projectsArrayJson[i.toString()] = {
+                name: logicController.projectsArray[i].name,
+                todos: todosObj
+            }
+        }
+
+        localStorage.setItem('todos_json', JSON.stringify(projectsArrayJson))
     }
 
     const updateTheme = () => {
@@ -321,7 +333,8 @@ const storage = (() => {
     } 
 
     return {
-        loadData
+        loadData,
+        updateTodoData
     }
 })()
 
@@ -342,10 +355,11 @@ function debugy() {
     logicController.makeTodo('name', 'desc', 'date', 'red')
 }
 function debuga() {
-    console.log(logicController.getCurrentProject())
+    console.log(logicController.currentProject)
 }
 function debugb() {
-    logicController.makeProject('example project')
+    // logicController.makeProject('example project')
+    storage.updateTodoData()
 }
 function debugc() {
     storage.loadData()
@@ -355,7 +369,7 @@ debugMenu.innerHTML = `
 <button id="debug1">Print the projects array</button>
 <button id="debug2">Add a todo to the current project</button>
 <button id="debug3">Print current project</button>
-<button id="debug4">add a project</button>
+<button id="debug4">save data</button>
 <button id="debug5">load data</button>
 `
 

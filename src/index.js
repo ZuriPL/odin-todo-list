@@ -8,7 +8,6 @@ import todoCardF from './js/components/todo-card'
 import editPopupF from './js/components/edit-popup'
 import projectPopupF from './js/components/project-popup'
 import Sortable from 'sortablejs'
-import { kebabCase } from 'lodash'
 
 
 const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
@@ -98,6 +97,7 @@ const displayController = (() => {
                 Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
                 Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
                 projectButtonWrapper.classList.add('active')
+                sidebar.classList.remove('open')
             })
 
             projectButtonEdit.addEventListener('click', e => {

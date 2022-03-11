@@ -67,6 +67,10 @@ const displayController = (() => {
             logicController.makeProject(e.detail.name)
         })
 
+        window.addEventListener("beforeunload", function(e){
+            storage.updateTodoData()
+         }, false);
+
     }
 
     const renderProjectsButtons = () => {
@@ -118,6 +122,7 @@ const displayController = (() => {
             projectsSort.appendChild(projectButtonWrapper)
         })
         projectsSort.children[logicController.projectsArray.indexOf(logicController.currentProject) + 1].classList.add('active')
+        storage.updateTodoData()
     }
 
     const renderTodos = () => {
@@ -150,6 +155,7 @@ const displayController = (() => {
                 }
             })
         })
+        storage.updateTodoData()
     }
 
     return {

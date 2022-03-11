@@ -5,7 +5,7 @@ import { toPlainObject } from "lodash"
 export default function() {
     const topbar = elFactory('div', {id: 'topbar'})
     
-    const search = elFactory('input', {id: 'searchbar', type: 'search', placeholder: 'Search for a Todo or a Project'})
+    const search = elFactory('input', {id: 'searchbar', type: 'search', placeholder: 'Search for a todo in your project'})
     const searchWrap = elFactory('div', {id: 'search-wrapper'})
     const searchIcon = elFactory('label', {for: 'searchbar'})
     searchIcon.innerHTML = `

@@ -2,13 +2,13 @@ import elFactory from "../elFactory"
 import '../../css/todo.css'
 
 export default function(todoObj) {
-    const card = elFactory('li', {class: 'todo-card'})
+    const card = elFactory('li', {class: 'todo-card', tabindex: 0})
     const title = todoObj.title
     const description = todoObj.description
     const dueDate = todoObj.dueDate
     const color = todoObj.color
 
-    const checkbox = elFactory('input', {type: 'checkbox', class: ['todo-check', color]})
+    const checkbox = elFactory('input', {type: 'checkbox', class: ['todo-check', color], tabindex: 0})
     
 
     checkbox.addEventListener('change', e => {

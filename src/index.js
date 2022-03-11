@@ -131,9 +131,7 @@ const displayController = (() => {
         logicController.currentProject.todos.forEach(todo => {
             const { card, specialButton } = todoCardF(todo)
             card.setAttribute('index', logicController.currentProject.todos.indexOf(todo))
-            if (todo.done) {
-                card.classList.add('done')
-            }
+            if (todo.done) card.classList.add('done')
             workspace.appendChild(card)
             specialButton.addEventListener('click', e => {
                 if (todo.done) {

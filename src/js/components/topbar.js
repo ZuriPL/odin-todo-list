@@ -5,6 +5,25 @@ import { toPlainObject } from "lodash"
 export default function() {
     const topbar = elFactory('div', {id: 'topbar'})
     
+    const hamburgerMenu = elFactory('button', {class: 'hamburger'}, `
+        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+        </svg>
+    `)
+
+    function handleSidebarClose(e) {
+        if (e.path.includes(document.querySelector('#sidebar'))) return
+        e.stopPropagation();
+        e.preventDefault();
+        document.body.removeEventListener('click', handleSidebarClose, true)
+        document.querySelector('#sidebar').classList.remove('open')
+    }
+
+    hamburgerMenu.addEventListener('click', e => {
+        document.querySelector('#sidebar').classList.add('open')
+        setTimeout(() => document.body.addEventListener('click', handleSidebarClose, true), 0)
+    })
+
     const search = elFactory('input', {id: 'searchbar', type: 'search', placeholder: 'Search for a todo in your project'})
     const searchWrap = elFactory('div', {id: 'search-wrapper'})
     const searchIcon = elFactory('label', {for: 'searchbar'})
@@ -15,6 +34,8 @@ export default function() {
     `
     searchWrap.appendChild(searchIcon)
     searchWrap.appendChild(search)
+
+    topbar.appendChild(hamburgerMenu)
     topbar.appendChild(searchWrap)
 
     const themeToggleButton = elFactory('button', {id: 'theme-switch', style: 'height: 24px;'})

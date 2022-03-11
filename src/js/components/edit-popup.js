@@ -1,7 +1,8 @@
 import elFactory from "../elFactory"
 import '../../css/todo-form.css'
 
-export default function() {
+export default function(ogTodo) {
+    console.log(ogTodo)
     const editPopupBg = elFactory('div', {class: 'todo-form-bg'})
     const editPopup = elFactory('div', {class: 'todo-add-popup'})
 
@@ -13,9 +14,9 @@ export default function() {
         </svg>
     `)
 
-    const newTodoNameInput = elFactory('input', {id: 'name-input', type: 'text', required: ''})
-    const newTodoDescInput = elFactory('input', {id: 'desc-input', type: 'text', required: ''})
-    const newTodoDateInput = elFactory('input', {id: 'date-input', type: 'date', required: ''})
+    const newTodoNameInput = elFactory('input', {id: 'name-input', type: 'text', required: '', value: ogTodo.title})
+    const newTodoDescInput = elFactory('input', {id: 'desc-input', type: 'text', required: '', value: ogTodo.description})
+    const newTodoDateInput = elFactory('input', {id: 'date-input', type: 'date', required: '', value: ogTodo.dueDate})
     const newTodoNameLabel = elFactory('label', {class: 'form-label', for: 'name-input'}, 'Name:')
     const newTodoDescLabel = elFactory('label', {class: 'form-label', for: 'desc-input'}, 'Description:')
     const newTodoDateLabel = elFactory('label', {class: 'form-label', for: 'date-input'}, 'Due Date:')
@@ -28,7 +29,22 @@ export default function() {
     const todoColorOrange = elFactory('input', {type: 'radio', class: 'form-color-btn orange', name: 'color-input'})
     const todoColorPurple = elFactory('input', {type: 'radio', class: 'form-color-btn purple', name: 'color-input'})
 
-    const submitFormBtn = elFactory('button', {type: 'submit', id: 'form-submit-btn'}, 'Add')
+    switch (ogTodo.color) {
+        case 'red':
+            todoColorRed.setAttribute('checked', '')
+            break
+        case 'orange':
+            todoColorOrange.setAttribute('checked', '')
+            break
+        case 'purple':
+            todoColorPurple.setAttribute('checked', '')
+            break
+        case 'green':
+            todoColorGreen.setAttribute('checked', '')
+            break
+    }
+
+    const submitFormBtn = elFactory('button', {type: 'submit', id: 'form-submit-btn'}, 'Edit')
 
     colorWrapper.appendChild(todoColorBlue)
     colorWrapper.appendChild(todoColorGreen)

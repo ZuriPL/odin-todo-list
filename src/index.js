@@ -139,7 +139,7 @@ const displayController = (() => {
                     logicController.removeTodo(todo, card.getAttribute('index'))
                     displayController.renderTodos()
                 } else {
-                    const { editPopup, editPopupBg } = editPopupF()
+                    const { editPopup, editPopupBg } = editPopupF(todo)
                     specialButton.blur()
                     
                     editPopup.addEventListener('editTodo', e => {

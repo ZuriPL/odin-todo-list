@@ -126,5 +126,9 @@
 }
 
 
-
+@media (pointer:coarse) {
+    .sidebar-edit {
+        opacity: 1;
+    }
+}
 

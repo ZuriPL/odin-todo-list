@@ -143,8 +143,6 @@ const displayController = (() => {
                     specialButton.blur()
                     
                     editPopup.addEventListener('editTodo', e => {
-                        console.log(e)
-                        console.log(todo.project.todos.indexOf(todo))
                         todo.project.todos[todo.project.todos.indexOf(todo)] = new Todo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
                         renderTodos()
                     })
@@ -196,7 +194,6 @@ const logicController = (() => {
     }
 
     const setCurrentProject = (obj) => {
-        console.log(obj)
         currentProject = obj
     }
 

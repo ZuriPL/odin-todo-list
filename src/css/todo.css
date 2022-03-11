@@ -37,7 +37,7 @@
 }
 
 .infoWrapper {
-    white-space: nowrap;
+    white-space: pre-wrap;
     overflow: hidden;
     flex-grow: 1;
     position: relative;

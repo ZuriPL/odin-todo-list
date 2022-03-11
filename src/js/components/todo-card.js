@@ -34,7 +34,7 @@ export default function(todoObj) {
     const descWrapper = elFactory('div', {class: 'descWrapper'})
 
     const titleEl = elFactory('p', {class: 'todo-title'}, title)
-    const descriptionEl = elFactory('p', {class: 'todo-description'}, description)
+    const descriptionEl = elFactory('p', {class: 'todo-description', title: description}, description)
     const dueDateEl = elFactory('p', {class: 'todo-dueDate'}, dueDate)
     const colorEl = elFactory('div', {class: ['todo-color', todoObj.color]})
     const colorWrap = elFactory('div', {class: 'todo-color-wrapper'})

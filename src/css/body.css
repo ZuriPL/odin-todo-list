@@ -22,7 +22,7 @@ body {
         z-index: 200;
         height: 100vh;
         width: calc(50vw + 100px);
-        transition: 400ms cubic-bezier(0.35, 0, 0.1, 1.0);
+        transition: transform 400ms cubic-bezier(0.35, 0, 0.1, 1.0);
     }
     .animations #sidebar.open {
         transform: translateX(0%);
@@ -35,6 +35,10 @@ body {
 ul {
     list-style: none;
     overflow: overlay;
+}
+
+h1, h2, p {
+    cursor: default;
 }
 
 .hamburger {

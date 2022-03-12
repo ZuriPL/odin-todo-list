@@ -191,7 +191,7 @@
 
 /* firefox detection */
 @-moz-document url-prefix() {
-    .todo-card input {
+    .todo-card input[type="checkbox"] {
         visibility: visible;
     }
 }

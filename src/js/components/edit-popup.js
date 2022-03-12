@@ -93,7 +93,7 @@ export default function(ogTodo) {
             arguments: {
                 name: newTodoNameInput.value,
                 description: newTodoDescInput.value,
-                dueDate: newTodoDateInput.value,
+                dueDate: newTodoDateInput.valueAsDate,
                 color: document.querySelector('input[type="radio"]:checked.form-color-btn').getAttribute('class').split(' ')[1]
             }
         }

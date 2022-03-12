@@ -8,6 +8,7 @@ import todoCardF from './js/components/todo-card'
 import editPopupF from './js/components/edit-popup'
 import projectPopupF from './js/components/project-popup'
 import Sortable from 'sortablejs'
+import { format } from 'date-fns'
 
 
 const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, expiredTodos, allTodos } = sidebarF()
@@ -51,7 +52,7 @@ const displayController = (() => {
         allTodos.addEventListener('click', e => {
             document.querySelector('#searchbar').value = ''
             logicController.currentProject = { name: '', todos: logicController.getAllTodos() }
-            logicController.viewCertainTodos(_ => logicController.getAllTodos())
+            logicController.viewCertainTodos(logicController.getAllTodos)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             allTodos.classList.add('active')
@@ -61,10 +62,9 @@ const displayController = (() => {
 
         byToday.addEventListener('click', e => {
             document.querySelector('#searchbar').value = ''
-            const today = new Date(logicController.getToday())
-            const forToday = logicController.getAllTodos().filter(todo => (new Date(todo.dueDate).getDate() == today.getDate()) && (new Date(todo.dueDate).getMonth() == today.getMonth()) && (new Date(todo.dueDate).getFullYear() == today.getFullYear()))
-            logicController.currentProject = { name: '', todos: forToday }
-            logicController.viewCertainTodos(_ => forToday)
+            const forToday = () =>  logicController.getAllTodos().filter(todo => todo.dueDate == logicController.getToday())
+            logicController.currentProject = { name: '', todos: forToday() }
+            logicController.viewCertainTodos(forToday)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             byToday.classList.add('active')
@@ -74,9 +74,9 @@ const displayController = (() => {
         
         expiredTodos.addEventListener('click', e => {
             document.querySelector('#searchbar').value = ''
-            const expired = logicController.getAllTodos().filter(todo => new Date(todo.dueDate) < new Date(logicController.getToday()))
-            logicController.currentProject = { name: '', todos: expired }
-            logicController.viewCertainTodos(_ => expired)
+            const expired = () => logicController.getAllTodos().filter(todo => new Date(todo.dueDate) < new Date(logicController.getToday()))
+            logicController.currentProject = { name: '', todos: expired() }
+            logicController.viewCertainTodos(expired)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             expiredTodos.classList.add('active')
@@ -85,7 +85,7 @@ const displayController = (() => {
         })
 
         workspace.addEventListener('newTodo', e => {
-            logicController.makeTodo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
+            logicController.makeTodo(e.detail.arguments.name, e.detail.arguments.description, format(e.detail.arguments.dueDate, 'dd-MM-yyyy'), e.detail.arguments.color)
         })
 
         sidebar.addEventListener('newProject', e => {
@@ -193,7 +193,10 @@ const displayController = (() => {
                     specialButton.blur()
                     
                     editPopup.addEventListener('editTodo', e => {
-                        todo.project.todos[todo.project.todos.indexOf(todo)] = new Todo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
+                        todo.title = e.detail.arguments.name
+                        todo.description = e.detail.arguments.description
+                        todo.dueDate = format(e.detail.arguments.dueDate, 'dd-MM-yyyy')
+                        todo.color = e.detail.arguments.color
                         displayController.renderTodos(todosF)
                     })
             
@@ -265,8 +268,8 @@ const logicController = (() => {
         displayController.renderTodos(_ => logicController.currentProject.todos)
     }
 
-    const viewCertainTodos = (todoArray, name = '') => {
-        displayController.renderTodos(_ => todoArray())
+    const viewCertainTodos = (todoArrayF, name = '') => {
+        displayController.renderTodos(todoArrayF)
     }
 
     function makeProject(name) {
@@ -277,15 +280,8 @@ const logicController = (() => {
         displayController.renderProjectsButtons()
     }
 
-    function getToday() {
-        let today = new Date()
-        today = today.toLocaleDateString().split('.')
-        if (today[0].toString().length == 1) {
-            today[0] = '0' + today[0]
-        }
-        today = `${today[2]}-${today[1]}-${today[0]}`
-        
-        return today
+    function getToday(order = 'dd-MM-yyyy') {
+        return format(new Date(), order)
     }
     
     return {

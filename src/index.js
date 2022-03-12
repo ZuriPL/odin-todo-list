@@ -61,7 +61,8 @@ const displayController = (() => {
 
         byToday.addEventListener('click', e => {
             document.querySelector('#searchbar').value = ''
-            const forToday = logicController.getAllTodos().filter(todo => todo.dueDate == logicController.getToday())
+            const today = new Date(logicController.getToday())
+            const forToday = logicController.getAllTodos().filter(todo => (new Date(todo.dueDate).getDate() == today.getDate()) && (new Date(todo.dueDate).getMonth() == today.getMonth()) && (new Date(todo.dueDate).getFullYear() == today.getFullYear()))
             logicController.currentProject = { name: '', todos: forToday }
             logicController.viewCertainTodos(_ => forToday)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))

@@ -53,6 +53,7 @@ const displayController = (() => {
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             allTodos.classList.add('active')
+            sidebar.classList.remove('open')
         })
 
         byToday.addEventListener('click', e => {
@@ -62,6 +63,7 @@ const displayController = (() => {
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             byToday.classList.add('active')
+            sidebar.classList.remove('open')
         })
 
         byWeek.addEventListener('click', e => {
@@ -71,6 +73,7 @@ const displayController = (() => {
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             byWeek.classList.add('active')
+            sidebar.classList.remove('open')
         })
 
         workspace.addEventListener('newTodo', e => {
@@ -245,7 +248,7 @@ const logicController = (() => {
         project.todos.push(obj)
     }
 
-    function makeTodo(title, description, dueDate, color) {
+    function makeTodo() {
         const todo = new Todo(...arguments)
         logicController.pushTodoToProject(todo)
         displayController.renderTodos(logicController.currentProject.todos)
@@ -292,7 +295,7 @@ const storage = (() => {
 
         if (data == null || data == undefined) {
             localStorage.setItem('todos_json', `
-            {"0":{"name":"Tutorial Project","todos":{"0":{"title":"The sidebar on the left has your projects....","description":"...and a few shortcuts for your convienence too","dueDate":"2022-03-10","color":"blue","done":false},"1":{"title":"Welcome to Todo-List","description":"This project was made for The Odin Projects","dueDate":"2022-03-10","color":"blue","done":false},"2":{"title":"All of your todos are laid out in this section","description":"And they are saved after you close your browser window","dueDate":"2022-03-10","color":"blue","done":false}}}}
+            {"0":{"name":"Tutorial Project","todos":{"0":{"title":"The sidebar on the left has your projects....","description":"...and a few shortcuts for your convienence too","dueDate":"2022-03-10","color":"blue","done":false},"1":{"title":"Welcome to Todo-List","description":"This project was made for The Odin Project","dueDate":"2022-03-10","color":"blue","done":false},"2":{"title":"All of your todos are laid out in this section","description":"And they are saved after you close your browser window","dueDate":"2022-03-10","color":"blue","done":false}}}}
             `)
             data = JSON.parse(localStorage.getItem('todos_json'))
         }

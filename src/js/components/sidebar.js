@@ -16,12 +16,12 @@ export default function() {
     const todoDateSortTitle = elFactory('h2', {class: 'sidebar-group-title'}, 'Priority')
     todoDateSort.appendChild(todoDateSortTitle)
     
-    const byToday = elFactory('button', {class: 'sidebar-selection'}, 'Today')
-    todoDateSort.appendChild(byToday)
-    const byWeek = elFactory('button', {class: 'sidebar-selection'}, 'This week')
-    todoDateSort.appendChild(byWeek)
     const allTodos = elFactory('button', {class: 'sidebar-selection'}, 'All Todos')
     todoDateSort.appendChild(allTodos)
+    const byToday = elFactory('button', {class: 'sidebar-selection'}, 'Today')
+    todoDateSort.appendChild(byToday)
+    const expiredTodos = elFactory('button', {class: 'sidebar-selection'}, 'Expired')
+    todoDateSort.appendChild(expiredTodos)
 
     selectionWrapper.appendChild(todoDateSort)
 
@@ -64,5 +64,5 @@ export default function() {
         document.body.appendChild(projectPopupBg)
     })
 
-    return { sidebar, projectsSort, todoDateSort, projectsSortTitleWrapper, byToday, byWeek, allTodos }
+    return { sidebar, projectsSort, todoDateSort, projectsSortTitleWrapper, byToday, expiredTodos, allTodos }
 }

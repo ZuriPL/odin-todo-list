@@ -10,9 +10,11 @@ import projectPopupF from './js/components/project-popup'
 import Sortable from 'sortablejs'
 
 
-const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, byWeek, allTodos } = sidebarF()
+const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, expiredTodos, allTodos } = sidebarF()
 const topbar = topbarF()
 const { workspace, addTodoButton } = workspaceF()
+
+
 
 const displayController = (() => {
     const createPage = () => {
@@ -58,21 +60,23 @@ const displayController = (() => {
 
         byToday.addEventListener('click', e => {
             document.querySelector('#searchbar').value = ''
-            logicController.currentProject = { name: '', todos: logicController.getAllTodos() }
-            logicController.viewCertainTodos(logicController.getAllTodos())
+            const forToday = logicController.getAllTodos().filter(todo => todo.dueDate == logicController.getToday())
+            logicController.currentProject = { name: '', todos: forToday }
+            logicController.viewCertainTodos(forToday)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             byToday.classList.add('active')
             sidebar.classList.remove('open')
         })
-
-        byWeek.addEventListener('click', e => {
+        
+        expiredTodos.addEventListener('click', e => {
             document.querySelector('#searchbar').value = ''
-            logicController.currentProject = { name: '', todos: logicController.getAllTodos() }
-            logicController.viewCertainTodos(logicController.getAllTodos())
+            const expired = logicController.getAllTodos().filter(todo => new Date(todo.dueDate) < new Date(logicController.getToday()))
+            logicController.currentProject = { name: '', todos: expired }
+            logicController.viewCertainTodos(expired)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
-            byWeek.classList.add('active')
+            expiredTodos.classList.add('active')
             sidebar.classList.remove('open')
         })
 
@@ -88,7 +92,7 @@ const displayController = (() => {
             // this may not work
             if (e.detail.value == '') return logicController.viewCertainTodos(logicController.currentProject.todos)
             console.log(e.detail.value)
-            let filteredArray = logicController.currentProject.todos.filter(obj => obj.title.toLowerCase().indexOf(e.detail.value) >= 0)
+            let filteredArray = logicController.currentProject.todos.filter(obj => obj.title.toLowerCase().indexOf(e.detail.value) >= 0 || obj.description.toLowerCase().indexOf(e.detail.value) >= 0)
             console.log(filteredArray)
             logicController.viewCertainTodos(filteredArray)
             console.log(logicController.currentProject)
@@ -261,7 +265,6 @@ const logicController = (() => {
     }
 
     const viewCertainTodos = (todoArray, name = '') => {
-        // logicController.currentProject = { name: name, todos: todoArray }
         displayController.renderTodos(todoArray)
     }
 
@@ -271,6 +274,17 @@ const logicController = (() => {
             todos: []
         })
         displayController.renderProjectsButtons()
+    }
+
+    function getToday() {
+        let today = new Date()
+        today = today.toLocaleDateString().split('.')
+        if (today[0].toString().length == 1) {
+            today[0] = '0' + today[0]
+        }
+        today = `${today[2]}-${today[1]}-${today[0]}`
+        
+        return today
     }
     
     return {
@@ -286,6 +300,7 @@ const logicController = (() => {
         viewCertainTodos,
         setProjectsArray,
         pushTodoToProject,
+        getToday
     }
 })()
 

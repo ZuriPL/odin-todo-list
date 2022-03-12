@@ -32,12 +32,23 @@ const displayController = (() => {
             },
         })
 
+        let sortablProjects = Sortable.create(projectsSort, {
+            handle: '.handle',
+            // might not work in edge cases
+            onEnd: function(e) {
+                logicController.projectsArray.splice(e.newDraggableIndex, 0, ...logicController.projectsArray.splice(e.oldDraggableIndex, 1))
+                storage.updateTodoData()
+            },
+        })
+
         storage.loadData()
-        displayController.renderTodos()
+        displayController.renderTodos(logicController.currentProject.todos)
         displayController.renderProjectsButtons()
         setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
 
         allTodos.addEventListener('click', e => {
+            document.querySelector('#searchbar').value = ''
+            logicController.currentProject = { name: '', todos: logicController.getAllTodos() }
             logicController.viewCertainTodos(logicController.getAllTodos())
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
@@ -45,6 +56,8 @@ const displayController = (() => {
         })
 
         byToday.addEventListener('click', e => {
+            document.querySelector('#searchbar').value = ''
+            logicController.currentProject = { name: '', todos: logicController.getAllTodos() }
             logicController.viewCertainTodos(logicController.getAllTodos())
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
@@ -52,6 +65,8 @@ const displayController = (() => {
         })
 
         byWeek.addEventListener('click', e => {
+            document.querySelector('#searchbar').value = ''
+            logicController.currentProject = { name: '', todos: logicController.getAllTodos() }
             logicController.viewCertainTodos(logicController.getAllTodos())
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
@@ -64,6 +79,16 @@ const displayController = (() => {
 
         sidebar.addEventListener('newProject', e => {
             logicController.makeProject(e.detail.name)
+        })
+
+        topbar.addEventListener('search', e => {
+            // this may not work
+            if (e.detail.value == '') return logicController.viewCertainTodos(logicController.currentProject.todos)
+            console.log(e.detail.value)
+            let filteredArray = logicController.currentProject.todos.filter(obj => obj.title.toLowerCase().indexOf(e.detail.value) >= 0)
+            console.log(filteredArray)
+            logicController.viewCertainTodos(filteredArray)
+            console.log(logicController.currentProject)
         })
 
         window.addEventListener("beforeunload", function(e){
@@ -83,16 +108,31 @@ const displayController = (() => {
                     <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
                 </svg>
             `)
+            const handle = elFactory('div', {class: 'handle sidebar-handle'}, ` 
+                <svg style="width:24px; height: 24px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="dots-vertical 1">
+                        <path id="Vector" d="M9 16C9.53043 16 10.0391 16.2107 10.4142 16.5858C10.7893 16.9609 11 17.4696 11 18C11 18.5304 10.7893 19.0391 10.4142 19.4142C10.0391 19.7893 9.53043 20 9 20C8.46957 20 7.96086 19.7893 7.58579 19.4142C7.21071 19.0391 7 18.5304 7 18C7 17.4696 7.21071 16.9609 7.58579 16.5858C7.96086 16.2107 8.46957 16 9 16ZM9 10C9.53043 10 10.0391 10.2107 10.4142 10.5858C10.7893 10.9609 11 11.4696 11 12C11 12.5304 10.7893 13.0391 10.4142 13.4142C10.0391 13.7893 9.53043 14 9 14C8.46957 14 7.96086 13.7893 7.58579 13.4142C7.21071 13.0391 7 12.5304 7 12C7 11.4696 7.21071 10.9609 7.58579 10.5858C7.96086 10.2107 8.46957 10 9 10V10ZM9 4C9.53043 4 10.0391 4.21071 10.4142 4.58579C10.7893 4.96086 11 5.46957 11 6C11 6.53043 10.7893 7.03914 10.4142 7.41421C10.0391 7.78929 9.53043 8 9 8C8.46957 8 7.96086 7.78929 7.58579 7.41421C7.21071 7.03914 7 6.53043 7 6C7 5.46957 7.21071 4.96086 7.58579 4.58579C7.96086 4.21071 8.46957 4 9 4Z" fill="black"/>
+                        <path id="Vector_2" d="M15 16C15.5304 16 16.0391 16.2107 16.4142 16.5858C16.7893 16.9609 17 17.4696 17 18C17 18.5304 16.7893 19.0391 16.4142 19.4142C16.0391 19.7893 15.5304 20 15 20C14.4696 20 13.9609 19.7893 13.5858 19.4142C13.2107 19.0391 13 18.5304 13 18C13 17.4696 13.2107 16.9609 13.5858 16.5858C13.9609 16.2107 14.4696 16 15 16ZM15 10C15.5304 10 16.0391 10.2107 16.4142 10.5858C16.7893 10.9609 17 11.4696 17 12C17 12.5304 16.7893 13.0391 16.4142 13.4142C16.0391 13.7893 15.5304 14 15 14C14.4696 14 13.9609 13.7893 13.5858 13.4142C13.2107 13.0391 13 12.5304 13 12C13 11.4696 13.2107 10.9609 13.5858 10.5858C13.9609 10.2107 14.4696 10 15 10V10ZM15 4C15.5304 4 16.0391 4.21071 16.4142 4.58579C16.7893 4.96086 17 5.46957 17 6C17 6.53043 16.7893 7.03914 16.4142 7.41421C16.0391 7.78929 15.5304 8 15 8C14.4696 8 13.9609 7.78929 13.5858 7.41421C13.2107 7.03914 13 6.53043 13 6C13 5.46957 13.2107 4.96086 13.5858 4.58579C13.9609 4.21071 14.4696 4 15 4Z" fill="black"/>
+                    </g>
+                </svg>
+            `)
+
+            handle.style = `
+                height: 24px;
+                margin-right: 0.5rem;
+            `
 
             projectButtonEdit.addEventListener('click', e => {
                 e.stopPropagation()
             })
 
+            projectButtonWrapper.appendChild(handle)
             projectButtonWrapper.appendChild(projectButton)
             projectButtonWrapper.appendChild(projectButtonEdit)
 
 
             projectButtonWrapper.addEventListener('click', e => {
+                document.querySelector('#searchbar').value = ''
                 logicController.changeProject(logicController.projectsArray.indexOf(project))
                 Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
                 Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
@@ -125,10 +165,10 @@ const displayController = (() => {
         storage.updateTodoData()
     }
 
-    const renderTodos = () => {
+    const renderTodos = (todos) => {
         workspace.innerHTML = ''
         workspace.appendChild(addTodoButton)
-        logicController.currentProject.todos.forEach(todo => {
+        todos.forEach(todo => {
             const { card, specialButton } = todoCardF(todo)
             card.setAttribute('index', logicController.currentProject.todos.indexOf(todo))
             if (todo.done) card.classList.add('done')
@@ -137,14 +177,14 @@ const displayController = (() => {
                 if (todo.done) {
                     e.stopPropagation()
                     logicController.removeTodo(todo, card.getAttribute('index'))
-                    displayController.renderTodos()
+                    displayController.renderTodos(todos)
                 } else {
                     const { editPopup, editPopupBg } = editPopupF(todo)
                     specialButton.blur()
                     
                     editPopup.addEventListener('editTodo', e => {
                         todo.project.todos[todo.project.todos.indexOf(todo)] = new Todo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
-                        renderTodos()
+                        renderTodos(todos)
                     })
             
                     document.body.appendChild(editPopupBg)
@@ -174,12 +214,13 @@ class Todo {
 
 const logicController = (() => {
     let projectsArray = []
+    let currentProject = projectsArray[0]
 
     const setProjectsArray = (value) => {
         logicController.projectsArray = value
     }
 
-    let getAllTodos = () => {
+    const getAllTodos = () => {
         let all = []
         logicController.projectsArray.forEach(project => {
             all = all.concat(project.todos) 
@@ -187,7 +228,6 @@ const logicController = (() => {
         return all
     }
     
-    let currentProject = projectsArray[0]
 
     const getCurrentProject = () => {
         return logicController.currentProject
@@ -208,18 +248,18 @@ const logicController = (() => {
     function makeTodo(title, description, dueDate, color) {
         const todo = new Todo(...arguments)
         logicController.pushTodoToProject(todo)
-        displayController.renderTodos()
+        displayController.renderTodos(logicController.currentProject.todos)
         return todo
     }
 
     const changeProject = (projectIndex) => {
         logicController.currentProject = logicController.projectsArray[projectIndex]
-        displayController.renderTodos()
+        displayController.renderTodos(logicController.currentProject.todos)
     }
 
     const viewCertainTodos = (todoArray, name = '') => {
-        logicController.currentProject = { name: name, todos: todoArray }
-        displayController.renderTodos()
+        // logicController.currentProject = { name: name, todos: todoArray }
+        displayController.renderTodos(todoArray)
     }
 
     function makeProject(name) {
@@ -242,7 +282,7 @@ const logicController = (() => {
         setCurrentProject,
         viewCertainTodos,
         setProjectsArray,
-        pushTodoToProject
+        pushTodoToProject,
     }
 })()
 
@@ -274,7 +314,7 @@ const storage = (() => {
         }
         logicController.changeProject(0)
 
-        displayController.renderTodos()
+        displayController.renderTodos(logicController.currentProject.todos)
         displayController.renderProjectsButtons()
     }
 
@@ -310,54 +350,3 @@ const storage = (() => {
 
 
 displayController.createPage()
-
-
-
-
-
-// DEBUG
-
-const debugMenu = elFactory('div', {id: 'debug'})
-function debugx() {
-    console.log(logicController.projectsArray)
-}
-function debugy() {
-    logicController.makeTodo('name', 'desc', 'date', 'red')
-}
-function debuga() {
-    console.log(logicController.currentProject)
-}
-function debugb() {
-    // logicController.makeProject('example project')
-    storage.updateTodoData()
-}
-function debugc() {
-    storage.loadData()
-}
-
-debugMenu.innerHTML = `
-<button id="debug1">Print the projects array</button>
-<button id="debug2">Add a todo to the current project</button>
-<button id="debug3">Print current project</button>
-<button id="debug4">save data</button>
-<button id="debug5">load data</button>
-`
-
-document.body.appendChild(debugMenu)
-
-
-document.querySelector('#debug1').addEventListener('click', e => {
-    debugx()
-})
-document.querySelector('#debug2').addEventListener('click', e => {
-    debugy()
-})
-document.querySelector('#debug3').addEventListener('click', e => {
-    debuga()
-})
-document.querySelector('#debug4').addEventListener('click', e => {
-    debugb()
-})
-document.querySelector('#debug5').addEventListener('click', e => {
-    debugc()
-})

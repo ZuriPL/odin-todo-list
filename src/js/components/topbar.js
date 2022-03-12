@@ -1,6 +1,5 @@
 import elFactory from "../elFactory"
 import '../../css/topbar.css'
-import { toPlainObject } from "lodash"
 
 export default function() {
     const topbar = elFactory('div', {id: 'topbar'})
@@ -34,6 +33,13 @@ export default function() {
     `
     searchWrap.appendChild(searchIcon)
     searchWrap.appendChild(search)
+
+    search.addEventListener('input', e => {
+        const searchEvent = new CustomEvent('search', { detail: {
+            value: e.target.value
+        }})
+        topbar.dispatchEvent(searchEvent)
+    })
 
     topbar.appendChild(hamburgerMenu)
     topbar.appendChild(searchWrap)

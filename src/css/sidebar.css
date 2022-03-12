@@ -38,8 +38,6 @@
     flex-direction: column;
 }
 
-
-
 .sidebar-selection {
     background-color: transparent;
     border: none;
@@ -79,6 +77,7 @@
 
 
 .sidebar-new-project-btn,
+.sidebar-edit-projects-btn,
 .edit-btn {
     border: none;
     padding: 0;
@@ -93,29 +92,45 @@
     transition: opacity 250ms ease-in-out !important;
     margin-left: auto;
     flex-grow: 0;
+    pointer-events: none;
 }
 
-.sidebar-selection-wrapper:hover .sidebar-edit {
+/* .sidebar-selection-wrapper:hover .sidebar-edit {
     opacity: 1;
-}
+} */
 
 .sidebar-edit:hover path {
     fill: var(--accent-color);
 }
 
+
 .sidebar-new-project-btn {
-    border-radius: 100%;
     margin-right: 1.25rem;
+}
+
+.sidebar-edit-projects-btn {
+    padding: 0.35rem;
+    margin-left: auto;
+}
+
+.sidebar-group.edit .sidebar-edit-projects-btn path {
+    fill: var(--accent-color);
+}
+
+.sidebar-new-project-btn,
+.sidebar-edit-projects-btn {
+    border-radius: 100%;
     margin-bottom: 1rem;
 }
 
-.sidebar-new-project-btn:hover {
+.sidebar-new-project-btn:hover,
+.sidebar-edit-projects-btn:hover {
     background-color: var(--bg-2);
 }
 
 .sidebar-group-title-wrapper {
     display: flex;
-    justify-content: space-between;
+    gap: 0.5rem;
     align-items: center;
 }
 
@@ -125,10 +140,18 @@
     margin-bottom: 1rem;
 }
 
-
-@media (pointer:coarse) {
-    .sidebar-edit {
-        opacity: 1;
-    }
+.sidebar-handle.handle {
+    display: none;
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
 }
 
+.sidebar-group.edit .sidebar-handle.handle {
+    display: block;
+    opacity: 1;
+}
+
+.sidebar-group.edit .sidebar-edit {
+    opacity: 1;
+    pointer-events: all;
+}

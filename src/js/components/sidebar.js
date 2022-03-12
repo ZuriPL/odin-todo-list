@@ -13,7 +13,7 @@ export default function() {
     sidebar.appendChild(selectionWrapper)
     
     const todoDateSort = elFactory('div', {class: 'sidebar-group'})
-    const todoDateSortTitle = elFactory('h2', {class: 'sidebar-group-title'}, 'Priority')
+    const todoDateSortTitle = elFactory('h2', {class: 'sidebar-group-title'}, 'Overviews')
     todoDateSort.appendChild(todoDateSortTitle)
     
     const allTodos = elFactory('button', {class: 'sidebar-selection'}, 'All Todos')

@@ -101,6 +101,7 @@ const displayController = (() => {
             storage.updateTodoData()
          }, false);
 
+         console.log(logicController.getToday())
     }
 
     const renderProjectsButtons = () => {
@@ -173,8 +174,6 @@ const displayController = (() => {
     }
 
     const renderTodos = (todosF) => {
-        console.log(todosF)
-        console.log(todosF())
         let todos = todosF()
         workspace.innerHTML = ''
         workspace.appendChild(addTodoButton)

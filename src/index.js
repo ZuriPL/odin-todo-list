@@ -44,14 +44,14 @@ const displayController = (() => {
         })
 
         storage.loadData()
-        displayController.renderTodos(logicController.currentProject.todos)
+        displayController.renderTodos(_ => logicController.currentProject.todos)
         displayController.renderProjectsButtons()
         setTimeout(_ => document.querySelector('body').classList.add('animations'), 250)
 
         allTodos.addEventListener('click', e => {
             document.querySelector('#searchbar').value = ''
             logicController.currentProject = { name: '', todos: logicController.getAllTodos() }
-            logicController.viewCertainTodos(logicController.getAllTodos())
+            logicController.viewCertainTodos(_ => logicController.getAllTodos())
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             allTodos.classList.add('active')
@@ -63,7 +63,7 @@ const displayController = (() => {
             document.querySelector('#searchbar').value = ''
             const forToday = logicController.getAllTodos().filter(todo => todo.dueDate == logicController.getToday())
             logicController.currentProject = { name: '', todos: forToday }
-            logicController.viewCertainTodos(forToday)
+            logicController.viewCertainTodos(_ => forToday)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             byToday.classList.add('active')
@@ -75,7 +75,7 @@ const displayController = (() => {
             document.querySelector('#searchbar').value = ''
             const expired = logicController.getAllTodos().filter(todo => new Date(todo.dueDate) < new Date(logicController.getToday()))
             logicController.currentProject = { name: '', todos: expired }
-            logicController.viewCertainTodos(expired)
+            logicController.viewCertainTodos(_ => expired)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             expiredTodos.classList.add('active')
@@ -92,9 +92,9 @@ const displayController = (() => {
         })
 
         topbar.addEventListener('search', e => {
-            if (e.detail.value == '') return logicController.viewCertainTodos(logicController.currentProject.todos)
+            if (e.detail.value == '') return logicController.viewCertainTodos(_ => logicController.currentProject.todos)
             let filteredArray = logicController.currentProject.todos.filter(obj => obj.title.toLowerCase().indexOf(e.detail.value) >= 0 || obj.description.toLowerCase().indexOf(e.detail.value) >= 0)
-            logicController.viewCertainTodos(filteredArray)
+            logicController.viewCertainTodos(_ => filteredArray)
         })
 
         window.addEventListener("beforeunload", function(e){
@@ -172,7 +172,10 @@ const displayController = (() => {
         storage.updateTodoData()
     }
 
-    const renderTodos = (todos) => {
+    const renderTodos = (todosF) => {
+        console.log(todosF)
+        console.log(todosF())
+        let todos = todosF()
         workspace.innerHTML = ''
         workspace.appendChild(addTodoButton)
         todos.forEach(todo => {
@@ -184,14 +187,14 @@ const displayController = (() => {
                 if (todo.done) {
                     e.stopPropagation()
                     logicController.removeTodo(todo, card.getAttribute('index'))
-                    displayController.renderTodos(todos)
+                    displayController.renderTodos(todosF)
                 } else {
                     const { editPopup, editPopupBg } = editPopupF(todo)
                     specialButton.blur()
                     
                     editPopup.addEventListener('editTodo', e => {
                         todo.project.todos[todo.project.todos.indexOf(todo)] = new Todo(e.detail.arguments.name, e.detail.arguments.description, e.detail.arguments.dueDate, e.detail.arguments.color)
-                        renderTodos(todos)
+                        displayController.renderTodos(todosF)
                     })
             
                     document.body.appendChild(editPopupBg)
@@ -254,16 +257,16 @@ const logicController = (() => {
     function makeTodo() {
         const todo = new Todo(...arguments)
         pushTodoToProject(todo)
-        displayController.renderTodos(logicController.currentProject.todos)
+        displayController.renderTodos(_ => logicController.currentProject.todos)
     }
 
     const changeProject = (projectIndex) => {
         logicController.currentProject = logicController.projectsArray[projectIndex]
-        displayController.renderTodos(logicController.currentProject.todos)
+        displayController.renderTodos(_ => logicController.currentProject.todos)
     }
 
     const viewCertainTodos = (todoArray, name = '') => {
-        displayController.renderTodos(todoArray)
+        displayController.renderTodos(_ => todoArray())
     }
 
     function makeProject(name) {
@@ -329,7 +332,7 @@ const storage = (() => {
         }
         logicController.changeProject(0)
 
-        displayController.renderTodos(logicController.currentProject.todos)
+        displayController.renderTodos(_ => logicController.currentProject.todos)
         displayController.renderProjectsButtons()
     }
 

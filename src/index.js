@@ -103,6 +103,7 @@ const displayController = (() => {
         }, false);
 
         console.log(logicController.getToday())
+        console.log(logicController.getToday())
     }
 
     const renderProjectsButtons = () => {
@@ -268,7 +269,7 @@ const logicController = (() => {
         displayController.renderTodos(_ => logicController.currentProject.todos)
     }
 
-    const viewCertainTodos = (todoArrayF, name = '') => {
+    const viewCertainTodos = (todoArrayF) => {
         displayController.renderTodos(todoArrayF)
     }
 

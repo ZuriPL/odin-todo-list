@@ -56,6 +56,7 @@ const displayController = (() => {
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             allTodos.classList.add('active')
             sidebar.classList.remove('open')
+            addTodoButton.style = "display: none;"
         })
 
         byToday.addEventListener('click', e => {
@@ -67,6 +68,7 @@ const displayController = (() => {
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             byToday.classList.add('active')
             sidebar.classList.remove('open')
+            addTodoButton.style = "display: none;"
         })
         
         expiredTodos.addEventListener('click', e => {
@@ -78,6 +80,7 @@ const displayController = (() => {
             Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
             expiredTodos.classList.add('active')
             sidebar.classList.remove('open')
+            addTodoButton.style = "display: none;"
         })
 
         workspace.addEventListener('newTodo', e => {
@@ -89,13 +92,9 @@ const displayController = (() => {
         })
 
         topbar.addEventListener('search', e => {
-            // this may not work
             if (e.detail.value == '') return logicController.viewCertainTodos(logicController.currentProject.todos)
-            console.log(e.detail.value)
             let filteredArray = logicController.currentProject.todos.filter(obj => obj.title.toLowerCase().indexOf(e.detail.value) >= 0 || obj.description.toLowerCase().indexOf(e.detail.value) >= 0)
-            console.log(filteredArray)
             logicController.viewCertainTodos(filteredArray)
-            console.log(logicController.currentProject)
         })
 
         window.addEventListener("beforeunload", function(e){
@@ -145,6 +144,7 @@ const displayController = (() => {
                 Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
                 projectButtonWrapper.classList.add('active')
                 sidebar.classList.remove('open')
+                addTodoButton.style = "display: grid;"
             })
 
             projectButtonEdit.addEventListener('click', e => {
@@ -235,7 +235,6 @@ const logicController = (() => {
         return all
     }
     
-
     const getCurrentProject = () => {
         return logicController.currentProject
     }
@@ -254,9 +253,8 @@ const logicController = (() => {
 
     function makeTodo() {
         const todo = new Todo(...arguments)
-        logicController.pushTodoToProject(todo)
+        pushTodoToProject(todo)
         displayController.renderTodos(logicController.currentProject.todos)
-        return todo
     }
 
     const changeProject = (projectIndex) => {
@@ -299,7 +297,6 @@ const logicController = (() => {
         setCurrentProject,
         viewCertainTodos,
         setProjectsArray,
-        pushTodoToProject,
         getToday
     }
 })()

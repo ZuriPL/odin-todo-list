@@ -54,17 +54,20 @@ export default function() {
     popup.addEventListener('click', e => {
         e.stopPropagation()
     })
+    popup.addEventListener('mousedown', e => {
+        e.stopPropagation()
+    })
 
     function removeBg(e) {
         if (e instanceof KeyboardEvent && e.key != 'Escape') return
-        let isEvent = (e instanceof KeyboardEvent || e instanceof PointerEvent)
+        let isEvent = (e instanceof KeyboardEvent || e instanceof PointerEvent || e instanceof MouseEvent)
         if (e instanceof Event && !isEvent) return
         e.stopPropagation()
         popupBg.remove()
         document.body.removeEventListener('keydown', removeBg)
     }
 
-    popupBg.addEventListener('click', removeBg)
+    popupBg.addEventListener('mousedown', removeBg, {bubbles: false})
     closeButton.addEventListener('click', removeBg)
     document.body.addEventListener('keydown', removeBg)
     

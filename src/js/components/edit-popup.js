@@ -70,10 +70,13 @@ export default function(ogTodo) {
     editPopup.addEventListener('click', e => {
         e.stopPropagation()
     })
+    editPopup.addEventListener('mousedown', e => {
+        e.stopPropagation()
+    })
 
     function removeBg(e) {
         if (e instanceof KeyboardEvent && e.key != 'Escape') return
-        let isEvent = (e instanceof KeyboardEvent || e instanceof PointerEvent)
+        let isEvent = (e instanceof KeyboardEvent || e instanceof PointerEvent || e instanceof MouseEvent)
         if (e instanceof Event && !isEvent) return
         e.stopPropagation()
         editPopupBg.remove()

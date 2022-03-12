@@ -99,9 +99,9 @@ const displayController = (() => {
 
         window.addEventListener("beforeunload", function(e){
             storage.updateTodoData()
-         }, false);
+        }, false);
 
-         console.log(logicController.getToday())
+        console.log(logicController.getToday())
     }
 
     const renderProjectsButtons = () => {

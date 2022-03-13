@@ -8,7 +8,7 @@ import todoCardF from './js/components/todo-card'
 import editPopupF from './js/components/edit-popup'
 import projectPopupF from './js/components/project-popup'
 import Sortable from 'sortablejs'
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
 
 
 const { sidebar, projectsSort, projectsSortTitleWrapper, todoDateSort, byToday, expiredTodos, allTodos } = sidebarF()
@@ -74,7 +74,7 @@ const displayController = (() => {
         
         expiredTodos.addEventListener('click', e => {
             document.querySelector('#searchbar').value = ''
-            const expired = () => logicController.getAllTodos().filter(todo => new Date(todo.dueDate) < new Date(logicController.getToday()))
+            const expired = () => logicController.getAllTodos().filter(todo => parse(todo.dueDate, 'dd-MM-yyyy', new Date()) < parse(logicController.getToday(), 'dd-MM-yyyy', new Date()))
             logicController.currentProject = { name: '', todos: expired() }
             logicController.viewCertainTodos(expired)
             Array.from(projectsSort.children).forEach(btn => btn.classList.remove('active'))
@@ -101,14 +101,12 @@ const displayController = (() => {
         window.addEventListener("beforeunload", function(e){
             storage.updateTodoData()
         }, false);
-
-        console.log(logicController.getToday())
-        console.log(logicController.getToday())
     }
 
     const renderProjectsButtons = () => {
         projectsSort.innerHTML = '';
         projectsSort.appendChild(projectsSortTitleWrapper)
+
         logicController.projectsArray.forEach(project => {
             const projectButton = elFactory('button', {class: 'sidebar-project-selection'}, project.name)
             const projectButtonWrapper = elFactory('li', {class: 'sidebar-selection-wrapper'})
@@ -130,16 +128,12 @@ const displayController = (() => {
                 height: 24px;
                 margin-right: 0.5rem;
             `
-
-            projectButtonEdit.addEventListener('click', e => {
-                e.stopPropagation()
-            })
-
+            
             projectButtonWrapper.appendChild(handle)
             projectButtonWrapper.appendChild(projectButton)
             projectButtonWrapper.appendChild(projectButtonEdit)
-
-
+            
+            
             projectButtonWrapper.addEventListener('click', e => {
                 document.querySelector('#searchbar').value = ''
                 logicController.changeProject(logicController.projectsArray.indexOf(project))
@@ -147,10 +141,13 @@ const displayController = (() => {
                 Array.from(todoDateSort.children).forEach(btn => btn.classList.remove('active'))
                 projectButtonWrapper.classList.add('active')
                 sidebar.classList.remove('open')
+                projectsSort.classList.remove('edit')
                 addTodoButton.style = "display: grid;"
             })
-
+            
             projectButtonEdit.addEventListener('click', e => {
+                e.stopPropagation()
+                projectsSort.classList.remove('edit')
                 const { projectPopup, projectPopupBg } = projectPopupF('Edit')
                 projectButtonEdit.blur()
                 
@@ -177,6 +174,7 @@ const displayController = (() => {
 
     const renderTodos = (todosF) => {
         let todos = todosF()
+
         workspace.innerHTML = ''
         workspace.appendChild(addTodoButton)
         todos.forEach(todo => {
@@ -260,7 +258,7 @@ const logicController = (() => {
 
     function makeTodo() {
         const todo = new Todo(...arguments)
-        pushTodoToProject(todo)
+        logicController.pushTodoToProject(todo)
         displayController.renderTodos(_ => logicController.currentProject.todos)
     }
 
@@ -297,7 +295,8 @@ const logicController = (() => {
         setCurrentProject,
         viewCertainTodos,
         setProjectsArray,
-        getToday
+        getToday,
+        pushTodoToProject
     }
 })()
 
@@ -306,10 +305,13 @@ const storage = (() => {
         let data = JSON.parse(localStorage.getItem('todos_json'))
 
         if (data == null || data == undefined) {
-            localStorage.setItem('todos_json', `
-            {"0":{"name":"Tutorial Project","todos":{"0":{"title":"The sidebar on the left has your projects....","description":"...and a few shortcuts for your convienence too","dueDate":"2022-03-10","color":"blue","done":false},"1":{"title":"Welcome to Todo-List","description":"This project was made for The Odin Project","dueDate":"2022-03-10","color":"blue","done":false},"2":{"title":"All of your todos are laid out in this section","description":"And they are saved after you close your browser window","dueDate":"2022-03-10","color":"blue","done":false}}}}
-            `)
-            data = JSON.parse(localStorage.getItem('todos_json'))
+            logicController.makeProject('Tutorial Project')
+            logicController.changeProject(0)
+            logicController.makeTodo('Welcome to Todo-List', 'This site was made for The Odin Project', logicController.getToday(), 'blue')
+            logicController.makeTodo('All of your todos are laid out in this section', 'And they are saved after you close your browser window', logicController.getToday(), 'blue')
+            logicController.makeTodo('The sidebar on the left has your projects...', '...and a few shortcuts for your convienence too', logicController.getToday(), 'blue')
+            storage.updateTodoData()
+            return
         }
         
         logicController.setProjectsArray([])

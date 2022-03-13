@@ -1,9 +1,7 @@
 import elFactory from "../elFactory"
 import '../../css/todo-form.css'
-import { format, parse } from "date-fns"
 
 export default function(ogTodo) {
-    console.log(ogTodo)
     const editPopupBg = elFactory('div', {class: 'todo-form-bg'})
     const editPopup = elFactory('div', {class: 'todo-add-popup'})
 
@@ -17,7 +15,6 @@ export default function(ogTodo) {
 
     const newTodoNameInput = elFactory('input', {id: 'name-input', type: 'text', required: '', value: ogTodo.title})
     const newTodoDescInput = elFactory('input', {id: 'desc-input', type: 'text', required: '', value: ogTodo.description})
-    console.log(ogTodo.dueDate)
     const newTodoDateInput = elFactory('input', {id: 'date-input', type: 'date', required: '', value: ogTodo.dueDate.split('-').reverse().join('-')})
     const newTodoNameLabel = elFactory('label', {class: 'form-label', for: 'name-input'}, 'Name:')
     const newTodoDescLabel = elFactory('label', {class: 'form-label', for: 'desc-input'}, 'Description:')
